@@ -6,14 +6,14 @@
 class Crypto{
 
 public:
-    Crypto();
+    Crypto(std::string key);
     
     void setKey(std::string key)    {mKey = key;}
     
     std::string getKey()	    {return mKey;}
     
     void generateKey();
-    
+
     void encrypt(std::string &rData);
     void decrypt(std::string &rData);
 
