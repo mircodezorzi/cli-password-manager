@@ -7,11 +7,14 @@
 //#include "logger.h"
 #include "manager.h"
 
+#include <math.h>
+#include <iostream>
+
 int main(){
     
     Manager manager;
     manager.setFilepath("data.crypt");
-    manager.readData();
+    //manager.readData();
     //manager.writeData(); 
     //std::cout << fileio::read("data");
     //Logger logger("out.log", 3, "test");
