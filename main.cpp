@@ -6,14 +6,20 @@
 
 //#include "logger.h"
 #include "manager.h"
+#include "crypto.h"
 
 #include <math.h>
 #include <iostream>
+#include <vector>
 
 int main(){
-    
-    Manager manager;
-    manager.setFilepath("data.crypt");
+    std::string test = "123123123123781292";
+    Crypto crypto("generatedKey", 5);
+    crypto.encrypt(test);
+    //crypto.encrypt(test);
+    //std::cout << test;
+    //Manager manager;
+    //manager.setFilepath("data.crypt");
     //manager.readData();
     //manager.writeData(); 
     //std::cout << fileio::read("data");
