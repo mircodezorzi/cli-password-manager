@@ -30,7 +30,6 @@ std::string Logger::formatMessage(std::string message){
     return formattedString;
 }
 
-// TODO move these functions to .h since there's no need of having them here
 void Logger::log(size_t level, std::string message){
     if(level >= mLevel) logStream << formatMessage(message);
 }

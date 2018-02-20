@@ -1,32 +1,62 @@
 #include "manager.h"
+#include "logger.h"
 
 #include "exceptions.h"
 
 #include <fstream>
 #include <streambuf>
 #include <string>
+#include <stdlib.h>
+#include <time.h>
 
 // TODO for debug porpuses, con be removed when class is finished
 #include <iostream>
 
-Manager::Manager(std::string dataFilepath, std::string logFilpath, size_t logThresholdLevel, std::string LogMessageFormat) 
-    : Logger(logFilpath, logThresholdLevel, LogMessageFormat)
-    , Crypto(){
+Manager::Manager(std::string dataFilepath, std::string logFilpath, size_t logThresholdLevel, std::string logMessageFormat) 
+    : Logger(logFilpath, logThresholdLevel, logMessageFormat)
+    , Crypto(10){
     mPath = dataFilepath;
+}
+
+std::string Manager::generatePassword(size_t lenght, std::string blacklistedCharacters){
+    std::string password;
+    std::string randomCharacter;
+    
+    blacklistedCharacters += mBlacklistedCharacters;
+    srand(time(NULL));
+    
+    for(int i = 0; i < lenght; i++){
+	randomCharacter = (char) (rand() % 93) + 34;
+	if(randomCharacter.find_first_of(blacklistedCharacters) != -1)
+	    password += randomCharacter;
+	else
+	    i--;
+    }
+
+    return password;
+}
+
+void Manager::appendData(std::string website, std::string username, std::string password){
+    std::vector<std::string> temp;
+    temp.push_back("\"" + website + "\" ");
+    temp.push_back("\"" + username + "\" " );
+    temp.push_back("\'" + password + "\"; ");
+    mData.push_back(temp);
 }
 
 void Manager::readData(){
     size_t sitePos[2], userPos[2], passPos[2], endPos;
     std::vector<std::string> rowData;
     std::string decryptedData;
-    
+     
     std::ifstream inputFile(mPath); 
     std::string encryptedData ((std::istreambuf_iterator<char>(inputFile)),\
 				std::istreambuf_iterator<char>());
     
-    std::cout << encryptedData;
-    decryptedData= encryptedData;
+    encrypt(encryptedData);
     
+    decryptedData = encryptedData;
+
     do{
 	sitePos[0] = decryptedData.find("\"");
 	sitePos[1] = decryptedData.find("\"", sitePos[0] + 1);
@@ -48,15 +78,6 @@ void Manager::readData(){
 	decryptedData.erase(0, endPos + 1);
 
     }while(!decryptedData.empty());
-
-    //info();
-    // prints out the mData array, can be deleted
-    for(std::vector<std::string> i : mData){
-	for(std::string j : i)
-	    std::cout << j << " - ";
-	std::cout << std::endl;
-    }
-
 }
 
 void Manager::writeData(){

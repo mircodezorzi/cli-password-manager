@@ -7,21 +7,23 @@
 class Crypto{
 
 public:
-    Crypto(std::string key = "", size_t keyLength = 4096);
-    
+    Crypto(std::string key);
+    Crypto(size_t keyLength = 4096);
+
     void setKey(std::string key)	    {mKey = key;}
-    
+    void clearKey()			    {mKey = "";}
+
     std::string getKey()		    {return mKey;}
     
     void generateKey();
-    
-    std::vector<bool> toByte(char character);
-    char toChar(std::vector<bool> byte);
-    
+     
     void encrypt(std::string &rData);
     void decrypt(std::string &rData);
 
 private:
+    std::vector<bool> toByte(char character);
+    char	      toChar(std::vector<bool> byte);
+    
     std::string mKey;
     size_t	mKeyLength;
 };

@@ -14,10 +14,11 @@
 
 int main(){
     std::string test = "123123123123781292";
-    Crypto crypto("generatedKey", 5);
+    Crypto crypto(5);
     crypto.encrypt(test);
-    //crypto.encrypt(test);
-    //std::cout << test;
+    std::cout << test << std::endl << std::endl;
+    crypto.encrypt(test);
+    std::cout << test;
     //Manager manager;
     //manager.setFilepath("data.crypt");
     //manager.readData();

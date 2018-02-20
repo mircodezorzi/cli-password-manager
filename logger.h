@@ -43,7 +43,6 @@ private:
     
     std::string mFormat;  
     std::string mPath;
-
 };
 
 #endif /* end of include guard: LOGGER_H_H3RB85EA */
