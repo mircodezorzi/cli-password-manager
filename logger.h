@@ -12,18 +12,16 @@
 class Logger{
 
 public:
-    Logger(std::string logFilepath, size_t thresholdLevel = 0, \
+    Logger(std::string logPath, size_t thresholdLevel = 0, \
 	   std::string messageFormat = "%(date) - %(time) - %(level) - %(msg)");
     
     void setLevel(size_t thresholdLevel)      {mLevel  = thresholdLevel;}
     void setFormat(std::string messageFormat) {mFormat = messageFormat;}
     void setLogFilepath(std::string logPath)  {mPath   = logPath;}
 	
-    size_t getLevel()			      {return mLevel;}
+    size_t	getLevel()		      {return mLevel;}
     std::string getFormat()		      {return mFormat;}
     std::string getLogPath()		      {return mPath;}
-
-    std::string formatMessage(std::string message); 
 
     // General logging function
     void log(size_t level, std::string message);
@@ -37,6 +35,10 @@ public:
 
 private:
     std::ofstream logStream;
+    
+    // Used to format message passed in log functions
+    std::string formatMessage(std::string message); 
+    std::string getDate(std::string format = "DD-MM-YYYY hh:mm:ss");
 
     // Threshold for logger
     size_t mLevel;
