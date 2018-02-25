@@ -13,30 +13,32 @@ Logger::Logger(std::string logPath, size_t thresholdLevel, std::string messageFo
     logStream.open(mPath, std::ios_base::app | std::ios_base::out);
 }
 
-std::string Logger::getDate(std::string format){
-    std::string timeDate;
-    
+void Logger::replace(std::string &str, std::string substr, std::string replacestr){
+    if(str.find(substr) != -1)
+	str.replace(str.find(substr), substr.length(), replacestr);
+}
+
+std::string Logger::getDate(std::string format){ 
     time_t t = time(0);
-    struct tm *pCurrentDate = localtime(&t);
+    struct tm *pCurrentDate = localtime(&t);    
     
-    size_t hourPos, minPos, secPos, yearPos, monPos, dayPos;
+    replace(format, "DD",   std::to_string(pCurrentDate->tm_mday));
+    replace(format, "MM",   std::to_string(pCurrentDate->tm_mon + 1));
+    replace(format, "YYYY", std::to_string(pCurrentDate->tm_year + 1900));
+    replace(format, "hh",   std::to_string(pCurrentDate->tm_hour));
+    replace(format, "mm",   std::to_string(pCurrentDate->tm_min));
+    replace(format, "ss",   std::to_string(pCurrentDate->tm_sec));
 
-    
-
-    std::string date = std::to_string(pCurrentDate->tm_year + 1900) + "-" + \
-	               std::to_string(pCurrentDate->tm_mon + 1) + "-" + \
-		       std::to_string(pCurrentDate->tm_mday);
-    std::string time = std::to_string(pCurrentDate->tm_hour) + ":" + \
-		       std::to_string(pCurrentDate->tm_min) + ":" + \
-		       std::to_string(pCurrentDate->tm_sec);
-    
-    return date + " " + time;
+    return format;
 }
 
 std::string Logger::formatMessage(std::string message){
-    // TODO complete function
-    std::string formattedString = date + " " + time + " - " + message + "\n";
-    return formattedString;
+    std::string formattedMessage = mFormat;
+    replace(formattedMessage, "%(date)",  getDate("DD-MM-YYYY"));
+    replace(formattedMessage, "%(time)",  getDate("hh:mm:ss"));
+    replace(formattedMessage, "%(level)", std::to_string(mLevel));
+    replace(formattedMessage, "%(msg)",   message);
+    return formattedMessage + "\n";
 }
 
 void Logger::log(size_t level, std::string message){

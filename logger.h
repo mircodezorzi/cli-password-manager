@@ -36,15 +36,19 @@ public:
 private:
     std::ofstream logStream;
     
-    // Used to format message passed in log functions
-    std::string formatMessage(std::string message); 
-    std::string getDate(std::string format = "DD-MM-YYYY hh:mm:ss");
-
     // Threshold for logger
     size_t mLevel;
     
     std::string mFormat;  
     std::string mPath;
+
+protected:
+    // Used to format message passed in log functions
+    std::string formatMessage(std::string message);
+    std::string getDate(std::string format = "DD-MM-YYYY hh:mm:ss");
+    
+    void replace(std::string &str, std::string substr, std::string replacestr);
+
 };
 
 #endif /* end of include guard: LOGGER_H_H3RB85EA */
