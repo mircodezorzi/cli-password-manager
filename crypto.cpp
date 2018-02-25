@@ -10,7 +10,6 @@
 #include <bitset>
 #include <algorithm>
 
-
 Crypto::Crypto(std::string key){
     mKey       = key;
     mKeyLength = key.length();
@@ -22,7 +21,6 @@ Crypto::Crypto(size_t keyLength){
 }
 
 void Crypto::generateKey(){
-    srand(time(NULL));
     for (int i = 0; i < mKeyLength; i++)
 	mKey += (rand() % 26) + 97; 
 }
@@ -64,7 +62,7 @@ void Crypto::encrypt(std::string &rData){
 	 
 	encrypted_data += toChar(binary_result);
     
-	//
+	// TODO delete section, just for debug purpuses
 	std::cout << std::endl << "data:   ";
 	for(auto n:binary_character)
 	    std::cout << n;
@@ -83,15 +81,4 @@ void Crypto::encrypt(std::string &rData){
 	binary_result.clear();
     }
     rData = encrypted_data;
-}
-
-void Crypto::decrypt(std::string &rData){
-    std::string result = "";
-    char data_array[rData.length()];
-    strcpy(data_array, rData.c_str());
-    
-    char key_array[rData.length()];
-    strcpy(key_array, rData.c_str());
-
-    rData = result;
 }

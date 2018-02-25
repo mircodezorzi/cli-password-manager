@@ -18,12 +18,17 @@ Manager::Manager(std::string dataFilepath, std::string logFilpath, size_t logThr
     mPath = dataFilepath;
 }
 
-std::string Manager::generatePassword(size_t lenght, std::string blacklistedCharacters){
-    std::string password;
-    std::string randomCharacter;
-    
+void Manager::copyToClipboard(std::string s){
+    try{
+	std::string command = "echo \"" + s + "\" | xsel -b";
+	system(command.c_str());
+    }catch()
+	critical(errorClipboard);
+}
+
+std::string Manager::generatePassword(size_t lenght, std::string blacklistedCharacters){ 
     blacklistedCharacters += mBlacklistedCharacters;
-    srand(time(NULL));
+    std::string password, randomCharacter;
     
     for(int i = 0; i < lenght; i++){
 	randomCharacter = (char) (rand() % 93) + 34;
@@ -32,7 +37,8 @@ std::string Manager::generatePassword(size_t lenght, std::string blacklistedChar
 	else
 	    i--;
     }
-
+    
+    debug(generatingPassword);
     return password;
 }
 
@@ -53,6 +59,8 @@ void Manager::readData(){
     std::string encryptedData ((std::istreambuf_iterator<char>(inputFile)),\
 				std::istreambuf_iterator<char>());
     
+
+
     encrypt(encryptedData);
     
     decryptedData = encryptedData;
@@ -76,6 +84,8 @@ void Manager::readData(){
 	
     	rowData.clear();
 	decryptedData.erase(0, endPos + 1);
+	    
+
 
     }while(!decryptedData.empty());
 }

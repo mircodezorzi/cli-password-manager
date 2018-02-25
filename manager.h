@@ -23,10 +23,16 @@ public:
     void writeData();
 
 private:
+    void copyToClipboard(std::string s);
+    
+    // The data will be stored in a 3xn vector
     std::vector< std::vector<std::string> > mData;
     
+    // When generating the password this are the default blacklisted characters
     std::string mBlacklistedCharacters = "{}[]()/\\'\"`~,;:.<>";
+    
     std::string mPath;
+
 };
 
 #endif /* end of include guard: MANAGER_H_FSNLIKSO */

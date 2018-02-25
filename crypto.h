@@ -11,19 +11,18 @@ public:
     Crypto(size_t keyLength = 4096);
 
     void setKey(std::string key)	    {mKey = key;}
-    void clearKey()			    {mKey = "";}
+    void setKeyLenght(std::string lenght)   {mKeyLength = lenght}
 
-    std::string getKey()		    {return mKey;}
+    std::string getKey() const		    {return mKey;}
     
-    void generateKey();
-     
+    void generateKey();  
     void encrypt(std::string &rData);
-    void decrypt(std::string &rData);
 
-private:
+protected:
     std::vector<bool> toByte(char character);
     char	      toChar(std::vector<bool> byte);
     
+    // The generated key will contain only lower-case alphabetical characters
     std::string mKey;
     size_t	mKeyLength;
 };
