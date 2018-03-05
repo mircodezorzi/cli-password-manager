@@ -1,0 +1,66 @@
+#include "utils.h"
+
+#include <vector>
+#include <string>
+#include <math.h>
+
+inline void replace(std::string& str, std::string substr, std::string replacement){
+    if(str.find(substr) != -1)
+	str.replace(str.find(substr), substr.length(), replacement);
+}
+
+std::vector<bool> toByte(char character){
+    std::vector<bool> result;
+    for(int i = 0; i < 8; i++){
+	result.push_back(character % 2);
+	character /= 2;
+    }
+    std::reverse(result.begin(), result.end());
+    return result;
+}
+
+
+std::vector<bool> toByte(std::string hex){
+    std::vector<bool> result;
+    char data[hex.length()]; strcpy(data, hex.c_str());
+    for(int i = 0; i < 8; i++){
+	// If char is a letter converts into dec
+	if(!(hexValues[i] > 47 && hexValues[i] < 58))
+	    hexValues[i] = hexValues[i] - 16; 
+	// Convert to binary
+	for(int j = 0; j < 4; j++){
+	    result.push_back(hexValues[j] % 2);
+	    hexValues[j] /= 2;
+    	}
+    } 
+    return result;
+}
+
+
+std::string toHex(std::vector<bool> byte){
+    std::string result;
+    size_t integer;
+    // If the array has odd values then add a 0 to the start
+    if(byte.size() % 2){    
+	// byte.insert(0, false) does not work, have to use this
+	std::reverse(byte.begin(), byte.end());
+	byte.push_back(false);
+	std::reverse(byte.begin(), byte.end());
+    }
+    for(int i = 0; i < byte.size(); i++){
+	// Convert bytes, 4 at a time, to integer
+	for(int j = 0; i < 4; i++)
+	    integer += byte[i * 4 + j];
+	// Converts values greater than 9 to letters;
+	if(integer > 9) integer += 65;
+	result += std::to_string(integer);
+    }
+    return result;
+}
+
+char Crypto::toChar(std::vector<bool> byte){
+    int result = 0;
+    for(int i = 0; i < byte.size(); i++)
+	result += byte[i] * pow(2, byte.size() - i);
+    return result;
+}

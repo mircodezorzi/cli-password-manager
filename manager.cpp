@@ -22,9 +22,10 @@ void Manager::copyToClipboard(std::string s){
     try{
 	std::string command = "echo \"" + s + "\" | xsel -b";
 	system(command.c_str());
-    }catch()
-	critical(errorClipboard);
+    }catch(int e){
+    }
 }
+
 
 std::string Manager::generatePassword(size_t lenght, std::string blacklistedCharacters){ 
     blacklistedCharacters += mBlacklistedCharacters;
@@ -38,7 +39,7 @@ std::string Manager::generatePassword(size_t lenght, std::string blacklistedChar
 	    i--;
     }
     
-    debug(generatingPassword);
+    //debug(generatingPassword);
     return password;
 }
 
@@ -58,11 +59,8 @@ void Manager::readData(){
     std::ifstream inputFile(mPath); 
     std::string encryptedData ((std::istreambuf_iterator<char>(inputFile)),\
 				std::istreambuf_iterator<char>());
-    
-
 
     encrypt(encryptedData);
-    
     decryptedData = encryptedData;
 
     do{
@@ -84,18 +82,6 @@ void Manager::readData(){
 	
     	rowData.clear();
 	decryptedData.erase(0, endPos + 1);
-	    
-
-
     }while(!decryptedData.empty());
-}
 
-void Manager::writeData(){
-    /*std::ofstream outputFile(mPath);
-    for(std::vector<std::string> i : mData){
-	for(std::string j : i){
-	    decryptedData += "\"" + j + "\" ";
-	}
-	decryptedData += "; ";
-    }*/
 }

@@ -17,7 +17,7 @@ public:
     
     void setLevel(size_t l)		{mLevel  = l;}
     void setFormat(std::string f)	{mFormat = f;}
-    void setPath(std::string p)		{mPath   = p;}
+    void setPath  (std::string p)	{mPath   = p;}
 	
     size_t	getLevel() const	{return mLevel;}
     std::string getFormat() const       {return mFormat;}
@@ -46,10 +46,6 @@ protected:
     // Used to format message passed in log functions
     std::string formatMessage(std::string message);
     std::string getDate(std::string format = "DD/MM/YYYY hh:mm:ss");
-    
-    // s - > string | ss -> substring | rs -> replacement string 
-    inline void replace(std::string &s, std::string ss, std::string rs);
-
 };
 
 #endif /* end of include guard: LOGGER_H_H3RB85EA */

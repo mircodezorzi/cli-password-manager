@@ -1,4 +1,5 @@
 #include "logger.h"
+#include "utils.cpp"
 
 #include <fstream>
 #include <ios>
@@ -34,11 +35,6 @@ std::string Logger::getDate(std::string format){
     replace(format, "ss",   std::to_string(pCurrent->tm_sec));
 
     return format;
-}
-
-inline void Logger::replace(std::string& s, std::string ss, std::string rs){
-    if(s.find(ss) != -1)
-	s.replace(s.find(ss), ss.length(), rs);
 }
 
 // Different logging functions

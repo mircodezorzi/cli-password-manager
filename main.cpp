@@ -4,6 +4,8 @@
 //#include "crypt.h"
 //#include "fileStream.h"
 
+#include "utils.h"
+
 //#include "logger.h"
 #include "manager.h"
 #include "crypto.h"
@@ -13,14 +15,20 @@
 #include <vector>
 
 int main(){
+    std::vector<bool> test;
+
+    std::cout utils::toHex(test);
+
     /*
-    std::string test = "123123123123781292";
-    Crypto crypto(5);
+    std::string test = "123";
+    Crypto crypto("ABC");
+    std::cout << test << std::endl;
     crypto.encrypt(test);
-    std::cout << test << std::endl << std::endl;
+    std::cout << test << std::endl;
     crypto.encrypt(test);
-    std::cout << test;
+    std::cout << test << std::endl;
     */
+
     //Manager manager;
     //manager.setFilepath("data.crypt");
     //manager.readData();
