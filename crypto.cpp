@@ -36,17 +36,17 @@ void Crypto::encrypt(std::string &rData){
     strcpy(key_array, mKey.c_str());
     
     for(int i = 0; i < sizeof(data_array); i++){
-	binary_character = utils::toByte(std::to_string(data_array[i]));
-	binary_key       = utils::toByte(std::to_string(key_array[i % sizeof(key_array)]));
+	binary_character = utils::toByte(data_array[i]);
+	binary_key       = utils::toByte(key_array[i % sizeof(key_array)]);
 
-	for(int j = 0; j < 4; j++)
+	for(int j = 0; j < 8; j++)
 	    binary_result.push_back(binary_character[j] ^ binary_key[j]); 
 	
 	std::cout << "binary:";
-	for(auto n : binary_character)
+	for(auto n : binary_result)
 	    std::cout << n;
 	std::cout << std::endl;
-
+    
 	encrypted_data += utils::toHex(binary_result);
 /*    
 	// TODO delete section, just for debug purpuses

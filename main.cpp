@@ -15,18 +15,18 @@
 #include <vector>
 
 int main(){
-    std::vector<bool> test;
+    std::vector<bool> test = {1, 1, 0, 1, 0, 0, 0, 0};
 
-    std::cout utils::toHex(test);
-
+    std::cout << utils::toHex(test);
+    
     /*
-    std::string test = "123";
-    Crypto crypto("ABC");
+    std::string test = "1234";
+    Crypto crypto("abc");
     std::cout << test << std::endl;
     crypto.encrypt(test);
     std::cout << test << std::endl;
     crypto.encrypt(test);
-    std::cout << test << std::endl;
+    std::cout << test << std::endl;  
     */
 
     //Manager manager;
