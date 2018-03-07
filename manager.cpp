@@ -52,36 +52,20 @@ void Manager::appendData(std::string website, std::string username, std::string 
 }
 
 void Manager::readData(){
-    size_t sitePos[2], userPos[2], passPos[2], endPos;
-    std::vector<std::string> rowData;
-    std::string decryptedData;
-     
     std::ifstream inputFile(mPath); 
-    std::string encryptedData ((std::istreambuf_iterator<char>(inputFile)),\
-				std::istreambuf_iterator<char>());
-
-    encrypt(encryptedData);
-    decryptedData = encryptedData;
-
-    do{
-	sitePos[0] = decryptedData.find("\"");
-	sitePos[1] = decryptedData.find("\"", sitePos[0] + 1);
-
-	userPos[0] = decryptedData.find("\"", sitePos[1] + 1);
-	userPos[1] = decryptedData.find("\"", userPos[0] + 1); 
+   
+    std::string fieldData;
+    std::vector<std::string> record;
+    size_t startPos, endPos;
     
-	passPos[0] = decryptedData.find("\"", userPos[1] + 1);	
-	passPos[1] = decryptedData.find("\"", passPos[0] + 1);
-    
-	endPos = decryptedData.find(";");
-
-	rowData.push_back(decryptedData.substr(sitePos[0] + 1, sitePos[1] - sitePos[0] - 1));
-	rowData.push_back(decryptedData.substr(userPos[0] + 1, userPos[1] - userPos[0] - 1));
-	rowData.push_back(decryptedData.substr(passPos[0] + 1, passPos[1] - passPos[0] - 1));
-	mData.push_back(rowData);
-	
-    	rowData.clear();
-	decryptedData.erase(0, endPos + 1);
-    }while(!decryptedData.empty());
-
+    for(std::string fieldData; std::getline(inputFile, fieldData);){
+	while(!fieldData.empty()){
+	    startPos = fieldData.find("\"");
+	    endPos   = fieldData.find("\"", startPos + 1);
+	    record.push_back(fieldData.substr(startPos + 1, endPos - startPos - 1));
+	    fieldData.erase(0, endPos + 1);
+	}
+	mData.push_back(record);
+	record.clear();
+    }    size_t sitePos[2], userPos[2], passPos[2], endPos;     
 }

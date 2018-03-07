@@ -6,11 +6,6 @@
 #include <math.h>
 #include <algorithm>
 
-inline void utils::replace(std::string& str, std::string substr, std::string replacement){
-    if(str.find(substr) != -1)
-	str.replace(str.find(substr), substr.length(), replacement);
-}
-
 std::vector<bool> utils::toByte(char character){
     std::vector<bool> result;
     for(int i = 0; i < 8; i++){

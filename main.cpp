@@ -5,6 +5,7 @@
 //#include "fileStream.h"
 
 #include "utils.h"
+#include "databaseSystemManagment.h"
 
 //#include "logger.h"
 #include "manager.h"
@@ -15,16 +16,18 @@
 #include <vector>
 
 int main(){
-    std::vector<bool> test = {1, 1, 0, 1, 0, 0, 0, 0};
 
-    std::cout << utils::toHex(test);
-    
-    /*
+    DatabaseSystemManagment dsm;
+    dsm.readData();
+    dsm.printData();
+    /* 
     std::string test = "1234";
     Crypto crypto("abc");
     std::cout << test << std::endl;
     crypto.encrypt(test);
     std::cout << test << std::endl;
+    */
+    /*
     crypto.encrypt(test);
     std::cout << test << std::endl;  
     */

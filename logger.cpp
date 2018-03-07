@@ -1,9 +1,9 @@
 #include "logger.h"
 
 #include <fstream>
-#include <ios>
 #include <string>
 #include <ctime>
+#include <ios>
 
 Logger::Logger(std::string filepath, size_t level, std::string format){ 
     mPath   = filepath;
