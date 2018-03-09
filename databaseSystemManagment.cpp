@@ -5,13 +5,19 @@
 #include <iostream>
 #include <fstream>
 
-DatabaseSystemManagment::DatabaseSystemManagment(std::string filepath){
+DatabaseSystemManagment::DatabaseSystemManagment(std::string filepath)
+    : Crypto(128){
     mPath = filepath;
 }
 
-void DatabaseSystemManagment::readTableFromFile(){
+DatabaseSystemManagment::DatabaseSystemManagment(std::string filepath, std::string key)
+    : Crypto(key){
+    mPath = filepath;
+}
+
+void DatabaseSystemManagment::readFromFile(){
     std::ifstream inputFile(mPath); 
-   
+       
     std::string fieldData;
     std::vector<std::string> record;
     size_t startPos, endPos;
@@ -26,12 +32,4 @@ void DatabaseSystemManagment::readTableFromFile(){
 	mTable.push_back(record);
 	record.clear();
     } 
-}
-
-void DatabaseSystemManagment::printData(){
-    for(auto i: mTable){
-	for(auto j: i)
-	    std::cout << j << " ";
-	std::cout << std::endl;
-    }
 }

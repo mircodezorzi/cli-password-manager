@@ -17,9 +17,9 @@
 
 int main(){
 
-    DatabaseSystemManagment dsm;
-    dsm.readData();
-    dsm.printData();
+    //DatabaseSystemManagment dsm;
+    //dsm.readData();
+    //dsm.printData();
     /* 
     std::string test = "1234";
     Crypto crypto("abc");
@@ -32,9 +32,9 @@ int main(){
     std::cout << test << std::endl;  
     */
 
-    //Manager manager;
-    //manager.setFilepath("data.crypt");
-    //manager.readData();
+    Manager manager;
+    manager.setFilepath("data.crypt");
+    manager.readData();
     //manager.writeData(); 
     //std::cout << fileio::read("data");
     //Logger logger("out.log", 3);

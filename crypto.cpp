@@ -25,15 +25,53 @@ void Crypto::generateKey(){
 	mKey += (rand() % 26) + 97;
 }
 
-void Crypto::encrypt(std::string &rData){
-    std::string encrypted_data = "";
-    std::vector<bool> binary_character, binary_key, binary_result;
-    
-    char data_array[rData.length()];
-    strcpy(data_array, rData.c_str());
+void Cryto::uniform(std::vector<bool> &vec, size_t count){
+    std::reverse(vec.begin(), vec.end());
+    for(int i = 0; i < vec.size() % count; i++)
+    	vec.push_back(0);
+    std::reverse(vec.begin(), vec.end()); 
+}
 
-    char key_array[mKey.length()];
-    strcpy(key_array, mKey.c_str());
+std::string Crypto::toHex(std::vector<bool> byte){
+    std::string result = "";  
+    uniform(byte, 4);
+    for(int i = 0; i < byte.size(); i += 4){
+	size_t value = 0;		
+	for(int j = 0; j < 4; j++)
+	    value += pow(2, 3 - j) * byte[j + i];
+	if(!value > 9)  
+	    result += std::to_string(value);
+	else		     
+	    result += (char) value + 56;
+    }
+    return result;
+}
+
+std::vector<bool> utils::toByte(std::string hex){
+    std::vector<bool> result;
+    char hexValues[hex.length()]; strcpy(hexValues, hex.c_str());
+    for(int i = 0; i < 8; i++){
+	if(!(hexValues[i] > 47 && hexValues[i] < 58))
+	    hexValues[i] = hexValues[i] - 16; 
+	for(int j = 0; j < 4; j++){
+	    result.push_back(hexValues[j] % 2);
+	    hexValues[j] /= 2;
+    	}
+    } 
+    return result;
+    
+}
+
+void Crypto::encrypt(std::string &rData){
+    std::vector<bool> binaryChar, binaryKey, binaryResult;
+
+    std::string encryptedData = "";
+    
+    char data[rData.length()],\
+	 key [mKey.length()];
+   
+    strcpy(dataArray, rData.c_str());
+    strcpy(keyArray, mKey.c_str());
     
     for(int i = 0; i < sizeof(data_array); i++){
 	binary_character = utils::toByte(data_array[i]);
@@ -41,31 +79,14 @@ void Crypto::encrypt(std::string &rData){
 
 	for(int j = 0; j < 8; j++)
 	    binary_result.push_back(binary_character[j] ^ binary_key[j]); 
-	
-	std::cout << "binary:";
-	for(auto n : binary_result)
-	    std::cout << n;
-	std::cout << std::endl;
-    
+
 	encrypted_data += utils::toHex(binary_result);
-/*    
-	// TODO delete section, just for debug purpuses
-	std::cout << std::endl << "data:   ";
-	for(auto n:binary_character)
-	    std::cout << n;
-	std::cout << std::endl << "key:  " << key_array[i % sizeof(key_array)] << " ";
-	for(auto n:binary_key)
-	    std::cout << n;
-	std::cout << std::endl << "result: ";
-	for(auto n:binary_result)
-	    std::cout << n;
-	std::cout << std::endl << "char: " << data_array[i] << "  ->  " << toChar(binary_result) << std::endl;
-	std::cout << (int)data_array[i] << " " << (int)toChar(binary_result) << std::endl;
-	//
-*/
+
 	binary_key.clear();
 	binary_character.clear();
 	binary_result.clear();
     }
     rData = encrypted_data;
 }
+
+
