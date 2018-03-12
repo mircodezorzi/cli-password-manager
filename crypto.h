@@ -17,18 +17,24 @@ public:
     std::string getKey() const		    {return mKey;}
     
     void generateKey();  
+
     void encrypt(std::string &rData);
+    void decrypt(std::string &rData);
 
 protected:
     std::fstream fileStream;
     
     // Makes an array of size multiple of count. eg: count = 5, array size = 7; new array size = 10
-    void	 uniform(std::vector<bool> &vec, size_t count);
-
+    template <typename T>
+    void uniform(std::vector<T> &vec, T element, size_t count);
+    
     std::vector<bool> toByte(std::string hex);
+    
+    char    toChar(std::vector<bool> byte); 
+    std::string    toChar(size_t value);
+    std::vector<bool> toByte(char character);
 
-    std:::string toHex(std::vector<bool> byte);
-
+    std::string toHex(std::vector<bool> byte);
 	
     // The generated key will contain only lower-case alphabetical characters
     std::string mKey;
