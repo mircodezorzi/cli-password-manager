@@ -20,13 +20,14 @@ int main(){
     //DatabaseSystemManagment dsm;
     //dsm.readData();
     //dsm.printData();
-    /* 
+     
     std::string test = "1234";
     Crypto crypto("abc");
     std::cout << test << std::endl;
     crypto.encrypt(test);
     std::cout << test << std::endl;
-    */
+    crypto.decrypt(test);
+    std::cout << test << std::endl;
     /*
     crypto.encrypt(test);
     std::cout << test << std::endl;  

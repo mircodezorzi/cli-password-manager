@@ -67,5 +67,5 @@ void Manager::readData(){
 	}
 	mData.push_back(record);
 	record.clear();
-    }    size_t sitePos[2], userPos[2], passPos[2], endPos;     
+    }   
 }

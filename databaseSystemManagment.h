@@ -1,10 +1,12 @@
 #ifndef DATABASESYSTEMMANAGMENT_H_4WMQHENX
 #define DATABASESYSTEMMANAGMENT_H_4WMQHENX
 
+#include "crypto.h"
+
 #include <vector>
 #include <string>
 
-class DatabaseSystemManagment : public Crypto{
+class DatabaseSystemManagment : public Crypto {
 
 public:
     DatabaseSystemManagment(std::string filepath);
