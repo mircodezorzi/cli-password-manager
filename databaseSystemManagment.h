@@ -6,6 +6,13 @@
 #include <vector>
 #include <string>
 
+struct Record{
+    //std::vector<char> website, username, password, date;
+    std::string website, username, password, date;
+    bool isFavorite, isReadOnly;    
+};
+
+
 class DatabaseSystemManagment : public Crypto {
 
 public:
@@ -15,23 +22,16 @@ public:
     void setPath(std::string p)	    {mPath = p;}
 
     std::string getPath()	    {return mPath;}
-    
-    // Basic operations
-    void	removeRecord (size_t record);
-    std::string requestRecord(size_t record);
-    std::string appendRecord (std::vector<std::vector<std::string> >); 
-    
-    void	removeField (size_t field);
-    std::string requestField(size_t field);
-    std::string appendField (std::vector< std::vector<std::string> >); 
-
+     
     void readFromFile();
 
 private:
 
 protected:
-    std::vector< std::vector<std::string> > mTable;
+    std::vector<Record> mTable;
     
+    std::string substring(std::string str, char separator);
+    size_t findSecond(std::string str, char charater);
     std::string mPath;
 };
 
