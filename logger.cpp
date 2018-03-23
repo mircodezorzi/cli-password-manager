@@ -9,7 +9,7 @@ Logger::Logger(std::string filepath, size_t level, std::string format){
     mPath   = filepath;
     mLevel  = level;
     mFormat = format;
-
+    
     logStream.open(mPath, std::ios_base::app | std::ios_base::out);
 }
 
@@ -34,31 +34,31 @@ std::string Logger::getDate(std::string format){
     return format;
 }
 
-inline void Logger::replace(std::string& str, std::string substr, std::string replacement){
+void Logger::replace(std::string& str, std::string substr, std::string replacement){
     if(str.find(substr) != -1)
 	str.replace(str.find(substr), substr.length(), replacement);
 }
 
-inline void Logger::log(size_t level, std::string message){
+void Logger::log(size_t level, std::string message){
     if(level >= mLevel)		logStream << formatMessage(message);
 }
 
-inline void Logger::debug(std::string message){
+void Logger::debug(std::string message){
     if(debugLevel >= mLevel)	logStream << formatMessage(message);
 }
 
-inline void Logger::info(std::string message){
+void Logger::info(std::string message){
     if(infoLevel >= mLevel)	logStream << formatMessage(message);
 }
 
-inline void Logger::warning(std::string message){
+void Logger::warning(std::string message){
     if(warningLevel >= mLevel)	logStream << formatMessage(message);
 }
 
-inline void Logger::error(std::string message){
+void Logger::error(std::string message){
     if(errorLevel >= mLevel)	logStream << formatMessage(message);
 }
 
-inline void Logger::critical(std::string message){
+void Logger::critical(std::string message){
     if(criticalLevel >= mLevel) logStream << formatMessage(message);
 }

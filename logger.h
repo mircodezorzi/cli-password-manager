@@ -1,6 +1,9 @@
 #ifndef LOGGER_H_H3RB85EA
 #define LOGGER_H_H3RB85EA
 
+//TODO
+//  fix level display: print debug/ingo/warning/error/critical instead of level: mLevel
+
 #include <fstream>
 
 #define debugLevel    1
@@ -24,14 +27,14 @@ public:
     std::string getPath() const		{return mPath;}
 
     // General logging function
-    inline void log(size_t level, std::string message);
+    void log(size_t level, std::string message);
   
     // Specific logging function with different priority levels
-    inline void debug	(std::string message);
-    inline void info	(std::string message);
-    inline void warning (std::string message);
-    inline void error	(std::string message);
-    inline void critical(std::string message);
+    void debug	 (std::string message);
+    void info	 (std::string message);
+    void warning (std::string message);
+    void error	 (std::string message);
+    void critical(std::string message);
 
 private: 
     // Threshold for logger
@@ -46,7 +49,7 @@ protected:
     // Used to format message passed in log functions
     std::string formatMessage(std::string message);
     std::string getDate	     (std::string format = "DD/MM/YYYY - hh:mm:ss");
-    inline void replace	     (std::string &str, std::string substr,\
+    void replace	     (std::string &str, std::string substr,\
 			      std::string replacement);
 };
 
