@@ -1,14 +1,17 @@
+IDIR = "/usr/include/boost/variant.hpp"
 NAME = program
 LIBS = -lncurses
 CXX := g++
 
-all: program
+CFLAGS = -I$(IDIR)
+
+all: build
 
 %.o: %.cpp
 	$(CXX) -c $< -o $@
 
-program:
-	@echo "** Building game..."
+build:
+	@echo "** Building $(NAME)..."
 	$(CXX) -o $(NAME) *.o $(LIBS)
 
 clean:
