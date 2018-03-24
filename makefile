@@ -12,7 +12,7 @@ all: build
 
 build:
 	@echo "** Building $(NAME)..."
-	$(CXX) -o $(NAME) *.o $(LIBS)
+	$(CXX) -o $(NAME) *.o $(LIBS) $(CFLAGS)
 
 clean:
 	@echo "** Removing object files and executables..."

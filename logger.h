@@ -51,6 +51,7 @@ protected:
     std::string getDate	     (std::string format = "DD/MM/YYYY - hh:mm:ss");
     void replace	     (std::string &str, std::string substr,\
 			      std::string replacement);
+
 };
 
 #endif /* end of include guard: LOGGER_H_H3RB85EA */

@@ -1,16 +1,10 @@
-//#include <ncurses.h>
-
-#include "logger.h"
-#include "manager.h"
-#include "crypto.cpp"
-
-#include "database/record.h"
-#include "database/table.h"
+#include "database/databaseSystemManagment.h"
 
 int main(){
-
-    //DatabaseSystemManagment dsm;
-    //dsm.readData();
+    
+    std::string filepath = "data.crypt";
+    DatabaseSystemManagment dsm(filepath);
+    dsm.readFromFile();
     //dsm.printData();
     
     /*
