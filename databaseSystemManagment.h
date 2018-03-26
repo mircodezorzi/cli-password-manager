@@ -18,19 +18,17 @@ public:
      
     void readFromFile();
 
-private:
 
-protected:
-    // refere to single table by string
-    // refere to records by index
-    // refere to attribute by string
-    // eg: 
+private:
+    // to access an element: 
     //	    mTabels['mainTable'][8]['username']
-    // In table mTables get table named mainTable, 8th record and attribute named username
+   
     std::map< std::string, std::vector< std::map< std::string, 
 	      boost::variant< std::string, size_t, double, bool> > > > mTables;
-   
-    std::string substring(std::string str, char separator);
+    
+protected:
+    std::string substring(std::string str, const char *separator);
+    size_t find(std::string str, const char *c, size_t ordinal);	
 
     std::string mPath;
 };

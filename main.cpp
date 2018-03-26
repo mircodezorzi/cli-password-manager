@@ -1,22 +1,22 @@
-#include "database/databaseSystemManagment.h"
+#include "databaseSystemManagment.h"
 
 int main(){
     
     std::string filepath = "data.crypt";
     DatabaseSystemManagment dsm(filepath);
     dsm.readFromFile();
-    //dsm.printData();
     
     /*
     std::string test = "1234";
+    
     Crypto crypto("abc");
     std::cout << test << std::endl;
+    
     crypto.encrypt(test);
     std::cout << test << std::endl;
+    
     crypto.decrypt(test);
     std::cout << test << std::endl;
-    crypto.encrypt(test);
-    std::cout << test << std::endl;  
     */
 
     //Manager manager;
