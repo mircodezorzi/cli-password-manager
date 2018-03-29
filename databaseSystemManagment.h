@@ -16,8 +16,8 @@ public:
 
     std::string getPath()	    {return mPath;}
      
-    void readFromFile();
-
+    void import();
+    auto query(){return mTables;}
 
 private:
     // to access an element: 

@@ -1,5 +1,6 @@
 #include "manager.h"
 #include "logger.h"
+#include "display.h"
 
 #include "exceptions.h"
 
@@ -14,8 +15,28 @@
 
 Manager::Manager(std::string dataFilepath, std::string logFilpath, size_t logThresholdLevel, std::string logMessageFormat) 
     : Logger(logFilpath, logThresholdLevel, logMessageFormat)
-    , Crypto(10){
+    , Crypto(10), 
+    Display(){
     mPath = dataFilepath;
+    state = Running;
+}
+
+void Manager::start(){
+    switch(state){
+	case Running:
+	    mainLoop();
+	    break;
+    }
+}
+
+void Manager::mainLoop(){
+    printFrame(0);
+    printBottomFrame();
+    printMiddle(0, "cli-password-manager");
+    setCursor();
+    char input = getInput();
+    if(input == 'q') state = Exiting;
+
 }
 
 void Manager::copyToClipboard(std::string s){
@@ -41,31 +62,4 @@ std::string Manager::generatePassword(size_t lenght, std::string blacklistedChar
     
     //debug(generatingPassword);
     return password;
-}
-
-void Manager::appendData(std::string website, std::string username, std::string password){
-    std::vector<std::string> temp;
-    temp.push_back("\"" + website + "\" ");
-    temp.push_back("\"" + username + "\" " );
-    temp.push_back("\'" + password + "\"; ");
-    mData.push_back(temp);
-}
-
-void Manager::readData(){
-    std::ifstream inputFile(mPath); 
-   
-    std::string fieldData;
-    std::vector<std::string> record;
-    size_t startPos, endPos;
-    
-    for(std::string fieldData; std::getline(inputFile, fieldData);){
-	while(!fieldData.empty()){
-	    startPos = fieldData.find("\"");
-	    endPos   = fieldData.find("\"", startPos + 1);
-	    record.push_back(fieldData.substr(startPos + 1, endPos - startPos - 1));
-	    fieldData.erase(0, endPos + 1);
-	}
-	mData.push_back(record);
-	record.clear();
-    }   
 }

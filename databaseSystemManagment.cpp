@@ -24,7 +24,7 @@ size_t DatabaseSystemManagment::find(std::string str, const char *c, size_t ordi
     return pos;
 }
 
-void DatabaseSystemManagment::readFromFile(){
+void DatabaseSystemManagment::import(){
     std::ifstream inputFile(mPath);  
     
     std::map< std::string, boost::variant< std::string, 
@@ -69,8 +69,5 @@ void DatabaseSystemManagment::readFromFile(){
     }
     
     mTables[tableName] = table;
-    for(auto Table: mTables)
-	for(auto Record: Table.second)
-	    for(auto attribute: Record)
-		std::cout << "Table key: " <<Table.first << std::endl << "Field key: " << attribute.first << std::endl << "Attribute: " << attribute.second << std::endl;
+    mTables.erase("");
 }

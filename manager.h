@@ -3,31 +3,34 @@
 
 #include "logger.h"
 #include "crypto.h"
+#include "display.h"
 
 #include <vector>
 #include <string>
 
-class Manager : private Logger, private Crypto{
+class Manager : private Logger, private Crypto, private Display{
 
 public:
     Manager(std::string dataFilepath = "data.crypt", std::string logFilepath = "out.log",\
 	    size_t logThersholdLevel = 0, std::string logMessageFormat = "%(date) - %(time) - %(level) - %(msg)");
-  
+
     void setFilepath(std::string dataFilepath) {mPath = dataFilepath;}
     void setLogFilpath(std::string logFilepath) {mPath = logFilepath;}
 
     std::string generatePassword(size_t lenght, std::string blacklistedCharacters = "");
     void appendData(std::string website, std::string username, std::string password);
 
-    void readData();
-    void writeData();
+    void start();
 
 private:
+
+    void mainLoop();
+
+    enum State {Running, HelpMenu, Exiting};
+    State state;
+
     void copyToClipboard(std::string s);
-    
-    // The data will be stored in a 3xn vector
-    std::vector< std::vector<std::string> > mData;
-    
+   
     // When generating the password this are the default blacklisted characters
     std::string mBlacklistedCharacters = "{}[]()/\\'\"`~,;:.<>";
     
