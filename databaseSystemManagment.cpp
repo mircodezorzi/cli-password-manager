@@ -24,7 +24,7 @@ size_t DatabaseSystemManagment::find(std::string str, const char *c, size_t ordi
     return pos;
 }
 
-void DatabaseSystemManagment::import(){
+bool DatabaseSystemManagment::import(){
     std::ifstream inputFile(mPath);  
     
     std::map< std::string, boost::variant< std::string, 
@@ -33,21 +33,20 @@ void DatabaseSystemManagment::import(){
     std::vector< std::map< std::string, boost::variant< std::string, 
 	         size_t, double, bool> > > table;
    
-    size_t startPos, endPos;
-    bool appendTable = false;
-    std::string field, tableName;
     std::vector<std::string> fields;
+    std::string tableName;
+    bool tableEnd = false;
 
     for(std::string row; std::getline(inputFile, row);){
-	    
+	
+	// Set table name
 	if(row.substr(0, 2) == "::"){
 	    tableName = row.substr(2, row.length() - 2);
-	    table.clear();
-	    appendTable = true;
 	    row.erase(0, row.length());
 	} 
 	
-	if(row.substr(0, 2) == ";;"){
+	// Set attribute names
+	else if(row.substr(0, 2) == ";;"){
 	    fields.clear();
 	    while(!row.empty()){
 		fields.push_back(substring(row, "\""));
@@ -55,19 +54,25 @@ void DatabaseSystemManagment::import(){
 	    }
 	}	
 	
-	record.clear();
-	int i = 0;
-	while(!row.empty()){
-	    record[fields[i]] = substring(row, "\"");
-	    row.erase(0, find(row, "\"", 2) + 1);
-	    i++;
-	}	
+	// Set table end
+	else if(row.substr(0, 2) == "--")
+	    tableEnd = true;
 	
-	table.push_back(record);		
+	// Read data from line
+	else{
+	    record.clear();
+	    for(int i = 0; i < fields.size(); i++){
+		record[fields[i]] = substring(row, "\"");
+		row.erase(0, find(row, "\"", 2) + 1);	
+	    }	
+	    table.push_back(record);		
+	}
 
-	if(appendTable) {mTables[tableName] = table; appendTable = false;}
+	// Append table to table array
+	if(tableEnd){
+	    mTables[tableName] = table;
+	    tableEnd = false;
+	}
     }
-    
-    mTables[tableName] = table;
-    mTables.erase("");
+    return true;
 }

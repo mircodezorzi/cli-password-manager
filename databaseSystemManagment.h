@@ -16,8 +16,9 @@ public:
 
     std::string getPath()	    {return mPath;}
      
-    void import();
-    auto query(){return mTables;}
+    bool import();
+    auto query()		    {return mTables;}
+    auto query(std::string field);
 
 private:
     // to access an element: 
