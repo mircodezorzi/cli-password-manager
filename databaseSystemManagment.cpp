@@ -50,9 +50,8 @@ void DatabaseSystemManagment::import(){
 	
     std::ifstream inputFile(mPath);  
     std::vector<std::string> fields;
-    std::string tableName, primaryKey;
+    std::string tableName, primaryKey, id;
     
-    int ID = 0;
     for(std::string row; std::getline(inputFile, row);){
 	if(row.substr(0, 2) == "::")			// table name
 	    tableName = substring(row, "\"");
@@ -61,27 +60,26 @@ void DatabaseSystemManagment::import(){
 	    fields.clear();
 	    while(!row.empty()){
 		removeSpaces(row);
-		if(row.substr(0, 1) == "!")		// primary key
-		   primaryKey = substring(row, "\"");
-		else
-		   fields.push_back(substring(row, "\""));	
+		if(row.substr(0, 1) == "!"){		// primary key
+		    primaryKey = substring(row, "\"");
+		    mPrimaryKeys[tableName] = primaryKey; 
+		}
+		fields.push_back(substring(row, "\""));	
 		row.erase(0, find(row, "\"", 2) + 1);
 	    }
 	}else if(row.substr(0, 2) == "--"){		// table end	
-	    if(primaryKey != "")
-		mPrimaryKeys[tableName] = primaryKey;
-	    else
-		mPrimaryKeys[tableName] = "ID";
-	    mTables[tableName] = table;
+	    //mTables["data"] = table;
 	    table.clear();
 	}else{		    				// data
 	    record.clear();
 	    for(int i = 0; i < fields.size(); i++){
-		record[fields[i]] = substring(row, "\"");
+		if(fields[i] == primaryKey)
+		    id =  substring(row, "\"");
+		else
+		    record[fields[i]] = substring(row, "\"");
 		row.erase(0, find(row, "\"", 2) + 1);	
 	    }
-	    table[("ID" + std::to_string(ID))] = record;
-	    ID++;
+	    table[id] = record;
 	}
     } 
 }
