@@ -1,4 +1,4 @@
-#include "windowManager.h"
+#include "displayManager.h"
 
 #include "boost/variant.hpp"
 
@@ -9,10 +9,16 @@
 #include<variant>
 #include<map>
 
-WindowManager::WindowManager(){
-    if(getWindowSize()){
+#ifdef __linux__ 
+    #include<sys/ioctl.h>
+    #include<unistd.h> 
+#elif _WIN32 | _WIN64
+    #include<windows.h>
+#endif
+
+DisplayManager::DisplayManager(){
+   if(true){
 	mWindow = initscr();
-	//start_color();
 
 	raw();
 	noecho();
@@ -21,58 +27,46 @@ WindowManager::WindowManager(){
 	throw std::runtime_error("error reading terminal size");
 }
 
-WindowManager::~WindowManager(){
+DisplayManager::~DisplayManager(){
     delwin(mWindow);
     endwin();
 }
 
-// If there's any error, return false
-bool WindowManager::getWindowSize(){
-    Vector newWindowsize;
+WindowSize DisplayManager::getWindowSize(){
+    WindowSize windowsize;
     #ifdef __linux__ 
-	try{
-	    #include<sys/ioctl.h>
-	    #include<unistd.h> 
-	    struct winsize windowsize;
-	    ioctl(STDOUT_FILENO, TIOCGWINSZ, &windowsize);
-	    newWindowsize.w = windowsize.ws_col;
-	    newWindowsize.h = windowsize.ws_row;
-	}catch(...){
-	    return false;
-	}
+        struct winsize window;
+        ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
+        windowsize.w = window.ws_col;
+        windowsize.h = window.ws_row;
     #elif _WIN32 | _WIN64
 	try{
-	    #include<windows.h>
 	    CONSOLE_SCREEN_BUFFER_INFO csbi;
 	    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-	    newWindowsize.w = csbi.srWindow.Right - csbi.rsWindow.Left + 1;
-	    newWindowsize.h = csbi.srWindow.Bottom - csbi.rsWindow.Top + 1;
+	    windowsize.w = csbi.srWindow.Right - csbi.rsWindow.Left + 1;
+	    windowsize.h = csbi.srWindow.Bottom - csbi.rsWindow.Top + 1;
 	}catch(...){
-	    return false;
+	
 	}
     #endif
-    
-    // This function will be called in the update method in programManager
-    // if the window is resized then update it's dimensions
+       return windowsize;
+}
+
+void DisplayManager::checkForWindowResize(){
+    WindowSize newWindowsize;
+    newWindowsize = getWindowSize();
     if(newWindowsize.w != mWindowsize.w || newWindowsize.h != newWindowsize.h){
 	mWindowsize.w = newWindowsize.w;
 	mWindowsize.h = newWindowsize.h;
 	clear();
     }
-    
-    return true;
 }
 
-
-void WindowManager::checkForWindowResize(){
-    getWindowSize();
-}
-
-void WindowManager::resetCursor(){
+void DisplayManager::resetCursor(){
     move(mWindowsize.h - 1, 0);
 }
 
-void WindowManager::print(std::string str, size_t row, Align a){
+void DisplayManager::print(std::string str, size_t row, Align a){
     switch(a){
 	case Center:
 	    mvprintw(row, mWindowsize.w / 2 - str.length() / 2, str.c_str());
@@ -86,7 +80,7 @@ void WindowManager::print(std::string str, size_t row, Align a){
     }
 }
 
-void WindowManager::printFrame(){
+void DisplayManager::printFrame(){
     attron(A_STANDOUT); 
     mvhline(0, 0, ' ', mWindowsize.w);
     mvhline(mWindowsize.h - 1, 0, ' ', mWindowsize.w);
@@ -95,7 +89,7 @@ void WindowManager::printFrame(){
     resetCursor();
 }
 
-void WindowManager::printFile(std::string path){
+void DisplayManager::printFile(std::string path){
     move(0, 0);
     std::ifstream inputFile(path);
     for(std::string line; std::getline(inputFile, line);){
@@ -103,27 +97,30 @@ void WindowManager::printFile(std::string path){
     }
 }
 
-void WindowManager::printLine(size_t row){
+void DisplayManager::printLine(size_t row){
     attron(A_STANDOUT); 
     mvhline(row, 0, ' ', mWindowsize.w);
     attroff(A_STANDOUT); 
 }
 
-void WindowManager::printTable(std::vector< std::map < std::string,\
-			       boost::variant< std::string, size_t, double, bool > > > table){
+void DisplayManager::printTable(std::map<std::string, std::map<std::string,\
+			       boost::variant<std::string, size_t, double, bool>>> table){
     printLine(2);
- 
+
     move(3, 0);
-    size_t colW = mWindowsize.w / table[0].size();
-    for(auto record : table){
-	for(auto attribute : record){
+    //size_t colW = mWindowsize.w / table[0].size();
+    size_t colW = mWindowsize.w / 3;
+    for(auto record: table){
+	for(auto attribute : record.second){
 	    size_t oldX = getcurx(mWindow);
 	    size_t oldY = getcury(mWindow);
 	    attron(A_STANDOUT);	
-	    mvprintw(2, getcurx(mWindow), attribute.first.c_str());
+	    //mvprintw(2, getcurx(mWindow), attribute.first.c_str());
+	    mvprintw(2, getcurx(mWindow), "a");
 	    attroff(A_STANDOUT);  
 	    move(oldY, oldX);
-	    printw(boost::get<std::string>(attribute.second).c_str());
+	    //printw(boost::get<std::string>(attribute.second).c_str());
+	    printw("a");
 	    move(getcury(mWindow), colW);
 	    colW += colW;
 	}

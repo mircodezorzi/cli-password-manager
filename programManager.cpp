@@ -1,21 +1,21 @@
 #include "programManager.h"
 
-ProgramManager::ProgramManager(std::string dbPath)\
-    : DatabaseSystemManagment(dbPath)\
-    , WindowManager(){
+ProgramManager::ProgramManager(std::string dbPath)
+    : DatabaseSystemManagment(dbPath)
+    , DisplayManager(){
 }
 
 void ProgramManager::start(){
     mState = Running;
     import();
-    mainLoop();
+    loop();
 }
 
-void ProgramManager::mainLoop(){
+void ProgramManager::loop(){
     while(mState != Exiting){
+	update();
 	draw();
 	events();
-	update();
     }
 }
 
@@ -24,9 +24,6 @@ void ProgramManager::draw(){
     switch(mState){
 	case Running:
 	    printTable(query()["data"]);    
-	    break;
-	case HelpMenu:
-	    // TODO add help menu
 	    break;
     }
 }

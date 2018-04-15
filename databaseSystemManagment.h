@@ -16,20 +16,22 @@ public:
 
     std::string getPath()	    {return mPath;}
      
-    bool import();
+    void import();
+    
     auto query()		    {return mTables;}
-    auto query(std::string field);
+    auto query(std::string table, std::vector<std::string> fields);
+    
+    auto sort(std::string tableName, std::string fields);
 
 private:
-    // to access an element: 
-    //	    mTabels['mainTable'][8]['username']
-   
-    std::map< std::string, std::vector< std::map< std::string, 
-	      boost::variant< std::string, size_t, double, bool> > > > mTables;
-    
+    std::map<std::string, std::map<std::string, std::map<std::string, 
+	     boost::variant<std::string, size_t, double, bool>>>> mTables;
+    std::map<std::string, std::string> mPrimaryKeys;
+
 protected:
     std::string substring(std::string str, const char *separator);
-    size_t find(std::string str, const char *c, size_t ordinal);	
+    size_t	find(std::string str, const char *c, size_t ordinal);	
+    void	removeSpaces(std::string &str);
 
     std::string mPath;
 };

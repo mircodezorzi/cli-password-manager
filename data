@@ -1,4 +1,4 @@
-::data
+:: "data"
 ;; "site" "username" "password"
 "site1" "test1" "pass1"
 "google.com" "username" "password"

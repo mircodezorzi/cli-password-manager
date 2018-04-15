@@ -2,31 +2,33 @@
 #define PROGRAMMANAGER_H_AKLYD7VY
 
 #include "databaseSystemManagment.h"
-#include "windowManager.h"
+#include "displayManager.h"
 
-class ProgramManager : private DatabaseSystemManagment, private WindowManager{
+class ProgramManager : private DatabaseSystemManagment, private DisplayManager{
 
 public:
-    ProgramManager(std::string dbPath);
+    ProgramManager(std::string databasePath);
+
     void start();
 
 private:
-    void mainLoop();
+    void loop();
     
     void draw();
     void update();
     void events();	
-/*  void copyToClipboard(std::string s);
+
+    enum State{Running, HelpMenu, Exiting};
+    State mState;
+    
+    /*  void copyToClipboard(std::string s);
    
     std::string generatePassword(size_t lenght, std::string blacklistedCharacters = "");
     // When generating the password this are the default blacklisted characters
     std::string mBlacklistedCharacters = "{}[]()/\\'\"`~,;:.<>";
- */   
-    enum State{Running, HelpMenu, Exiting};
-    State mState;
+    */ 
 
 protected:
-
 
 };
 
