@@ -103,28 +103,26 @@ void DisplayManager::printLine(size_t row){
     attroff(A_STANDOUT); 
 }
 
-void DisplayManager::printTable(std::map<std::string, std::map<std::string,\
-			       boost::variant<std::string, size_t, double, bool>>> table){
+void DisplayManager::printTable(std::map<std::string, std::map<std::string, 
+	boost::variant<std::string, size_t, double, bool>>> table){
     printLine(2);
-
     move(3, 0);
-    //size_t colW = mWindowsize.w / table[0].size();
-    size_t colW = mWindowsize.w / 3;
+ 
+    size_t colW = mWindowsize.w / table.size(); 
     for(auto record: table){
-	for(auto attribute : record.second){
+	for(auto attribute : record.second){ 
 	    size_t oldX = getcurx(mWindow);
 	    size_t oldY = getcury(mWindow);
 	    attron(A_STANDOUT);	
-	    //mvprintw(2, getcurx(mWindow), attribute.first.c_str());
-	    mvprintw(2, getcurx(mWindow), "a");
+	    mvprintw(2, getcurx(mWindow), attribute.first.c_str());
 	    attroff(A_STANDOUT);  
 	    move(oldY, oldX);
-	    //printw(boost::get<std::string>(attribute.second).c_str());
-	    printw("a");
+	    printw(boost::get<std::string>(attribute.second).c_str());
 	    move(getcury(mWindow), colW);
 	    colW += colW;
-	}
-	colW = mWindowsize.w / table[0].size();
+	    }
+	colW = mWindowsize.w / table.size();
 	move(getcury(mWindow) + 1, 0);
     }
+    
 }

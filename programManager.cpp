@@ -23,7 +23,7 @@ void ProgramManager::draw(){
     printFrame();
     switch(mState){
 	case Running:
-	    printTable(query()["data"]);    
+	    printTable(query()["userdata"]);    
 	    break;
     }
 }
