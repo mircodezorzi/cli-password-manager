@@ -10,6 +10,9 @@ all: build
 %.o: %.cpp
 	$(CXX) -c $< -o $@
 
+tags:
+	ctags -R .
+
 build:
 	@echo "** Building $(NAME)..."
 	$(CXX) -o $(NAME) *.o $(LIBS) $(CFLAGS)
