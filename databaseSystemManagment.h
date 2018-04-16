@@ -24,7 +24,7 @@ public:
     auto sort(std::string tableName, std::string fields);
 
 private:
-    std::map<std::string, std::map<std::string, std::map<std::string, 
+    std::map<std::string, std::map<std::string, std::map<std::string,
 	     boost::variant<std::string, size_t, double, bool>>>> mTables;
     std::map<std::string, std::string> mPrimaryKeys;
 

@@ -30,21 +30,30 @@ void DatabaseSystemManagment::removeSpaces(std::string &str){
 	str.erase(0, 1);
 }
 
-#include<iostream>
 void DatabaseSystemManagment::import(){ 
-    // This is probably the most contorted function I've written in this program.
-    // The gist of it is that it checks line by line the data file;
-    // - if the line starts with a :: then that line will have to contain the table name
-    // - if the line starts with a ;; then that line will have to contain the name of the fields
-    //	      if before a field name there's a "!" eg: !"username" than that field will become
-    //	      the primary key. Otherwise the program will automatically generate progressive IDs.
-    //	      The primary key or ID will be stored in a separate table that will contain the key and the table name;
-    //	      this is mainly to facilitate the sorting of the tables in the later stages.
-    //	- if the line starts with -- then the program will save the current table and if the 
-    //	  file continues that the program will do too.    
-    //	- after that the program will start reading data fromatted a little bit like this: 
-    //	    "google.com" "zucc@gmail.com" "123456"
-  
+    // This is probably the most contorted I've written in this project.
+    // The gist of it is that it checks line by line the specified file:
+    // - if the line starts with :: then that line will contain the table name
+    // - if the line starts with ;; then that line will contain the the fields
+    // - if the line starts with -- then then the table will be saved and the
+    //   program wil continue to read untill the end of the file, the field with 
+    //   a "!" before it will be the primary key. The key will also be stored in
+    //   mPrimaryKeys alongsite the name of the table where it is used, this will
+    //   be useful when sorting or querying the database
+    // - if the line doesn't start with the symbols previously listed, the program 
+    //   will start to read the data
+    //
+    //	    see example.db
+    //	    
+    // TODO:
+    //	    - add automatic counter if not present in file
+    //
+    // BUGS:  
+    //	    - multiple keys are not supported
+    //	    - attributes cannot contain double quotes
+    //	    - table name cannot be "data"
+
+
 			  std::map<std::string,	boost::variant<std::string, size_t, double, bool>> record;
     std::map<std::string, std::map<std::string, boost::variant<std::string, size_t, double, bool>>> table;
 	
@@ -53,7 +62,7 @@ void DatabaseSystemManagment::import(){
     std::string tableName, primaryKey, id;
     
     for(std::string row; std::getline(inputFile, row);){
-	if(row.substr(0, 2) == "::")			// table name
+	if(row.substr(0, 2) == "::")		 	// table name
 	    tableName = substring(row, "\"");
 	else if(row.substr(0, 2) == ";;"){	        // fields
 	    primaryKey = "";
@@ -68,7 +77,7 @@ void DatabaseSystemManagment::import(){
 		row.erase(0, find(row, "\"", 2) + 1);
 	    }
 	}else if(row.substr(0, 2) == "--"){		// table end	
-	    //mTables["data"] = table;
+	    mTables[tableName] = table;
 	    table.clear();
 	}else{		    				// data
 	    record.clear();
