@@ -16,10 +16,12 @@ DATABASESYSTEMMANAGMENT_H_4WMQHENX	databaseSystemManagment.h	2;"	d
 DISPLAYMANAGER_H_T7LB1KZ4	displayManager.h	2;"	d
 DatabaseSystemManagment	databaseSystemManagment.cpp	/^DatabaseSystemManagment::DatabaseSystemManagment(std::string filepath){$/;"	f	class:DatabaseSystemManagment
 DatabaseSystemManagment	databaseSystemManagment.h	/^class DatabaseSystemManagment{$/;"	c
+Direction	displayManager.h	/^enum Direction{Vertical, Horizontal};$/;"	g
 DisplayManager	displayManager.cpp	/^DisplayManager::DisplayManager(){$/;"	f	class:DisplayManager
 DisplayManager	displayManager.h	/^class DisplayManager{ $/;"	c
 Exiting	programManager.h	/^    enum State{Running, HelpMenu, Exiting};$/;"	e	enum:ProgramManager::State
 HelpMenu	programManager.h	/^    enum State{Running, HelpMenu, Exiting};$/;"	e	enum:ProgramManager::State
+Horizontal	displayManager.h	/^enum Direction{Vertical, Horizontal};$/;"	e	enum:Direction
 IDIR	makefile	/^IDIR = "\/usr\/include\/boost\/variant.hpp"$/;"	m
 LIBS	makefile	/^LIBS = -lncurses$/;"	m
 LOGGER_H_H3RB85EA	logger.h	2;"	d
@@ -33,14 +35,17 @@ ProgramManager	programManager.h	/^class ProgramManager : private DatabaseSystemM
 Right	displayManager.h	/^enum Align{Center, Left, Right};$/;"	e	enum:Align
 Running	programManager.h	/^    enum State{Running, HelpMenu, Exiting};$/;"	e	enum:ProgramManager::State
 State	programManager.h	/^    enum State{Running, HelpMenu, Exiting};$/;"	g	class:ProgramManager
+Vertical	displayManager.h	/^enum Direction{Vertical, Horizontal};$/;"	e	enum:Direction
 WindowSize	displayManager.h	/^class WindowSize{$/;"	c
 checkForWindowResize	displayManager.cpp	/^void DisplayManager::checkForWindowResize(){$/;"	f	class:DisplayManager
+checkInput	displayManager.cpp	/^int DisplayManager::checkInput(){$/;"	f	class:DisplayManager
 critical	logger.cpp	/^void Logger::critical(std::string message){$/;"	f	class:Logger
 criticalLevel	logger.h	13;"	d
 debug	logger.cpp	/^void Logger::debug(std::string message){$/;"	f	class:Logger
 debugLevel	logger.h	9;"	d
 decrypt	crypto.cpp	/^void Crypto::decrypt(std::string &rData){$/;"	f	class:Crypto
 draw	programManager.cpp	/^void ProgramManager::draw(){$/;"	f	class:ProgramManager
+drawLine	displayManager.cpp	/^void DisplayManager::drawLine(size_t pos, Direction direction){$/;"	f	class:DisplayManager
 encrypt	crypto.cpp	/^void Crypto::encrypt(std::string &rData){$/;"	f	class:Crypto
 error	logger.cpp	/^void Logger::error(std::string message){$/;"	f	class:Logger
 errorClipboard	exceptions.h	2;"	d
@@ -73,17 +78,18 @@ mLevel	logger.h	/^    size_t mLevel; $/;"	m	class:Logger
 mPath	databaseSystemManagment.h	/^    std::string mPath;$/;"	m	class:DatabaseSystemManagment
 mPath	logger.h	/^    std::string mPath;$/;"	m	class:Logger
 mPrimaryKeys	databaseSystemManagment.h	/^    std::map<std::string, std::string> mPrimaryKeys;$/;"	m	class:DatabaseSystemManagment
-mState	programManager.h	/^    State mState;$/;"	m	class:ProgramManager
+mSelected	programManager.h	/^    size_t mSelected;$/;"	m	class:ProgramManager
+mState	programManager.h	/^    State mState; $/;"	m	class:ProgramManager
 mTables	databaseSystemManagment.h	/^	     boost::variant<std::string, size_t, double, bool>>>> mTables;$/;"	m	class:DatabaseSystemManagment
-mWindow	displayManager.h	/^    WINDOW    *mWindow;$/;"	m	class:DisplayManager
-mWindowsize	displayManager.h	/^    WindowSize mWindowsize;$/;"	m	class:DisplayManager
+mWindow	displayManager.h	/^    WINDOW     *mWindow;$/;"	m	class:DisplayManager
+mWindowsize	displayManager.h	/^    WindowSize mWindowsize; $/;"	m	class:DisplayManager
 main	main.cpp	/^int main(){$/;"	f
 operator =	displayManager.h	/^    WindowSize operator=(WindowSize other){$/;"	f	class:WindowSize
 print	displayManager.cpp	/^void DisplayManager::print(std::string str, size_t row, Align a){$/;"	f	class:DisplayManager
 printFile	displayManager.cpp	/^void DisplayManager::printFile(std::string path){$/;"	f	class:DisplayManager
 printFrame	displayManager.cpp	/^void DisplayManager::printFrame(){$/;"	f	class:DisplayManager
 printLine	displayManager.cpp	/^void DisplayManager::printLine(size_t row){$/;"	f	class:DisplayManager
-printTable	displayManager.cpp	/^void DisplayManager::printTable(std::map<std::string, std::map<std::string,\\$/;"	f	class:DisplayManager
+printTable	displayManager.cpp	/^void DisplayManager::printTable(std::map<std::string, std::map<std::string, $/;"	f	class:DisplayManager
 query	databaseSystemManagment.cpp	/^auto DatabaseSystemManagment::query(std::string table, std::vector<std::string> fields){$/;"	f	class:DatabaseSystemManagment
 query	databaseSystemManagment.h	/^    auto query()		    {return mTables;}$/;"	f	class:DatabaseSystemManagment
 removeSpaces	databaseSystemManagment.cpp	/^void DatabaseSystemManagment::removeSpaces(std::string &str){$/;"	f	class:DatabaseSystemManagment

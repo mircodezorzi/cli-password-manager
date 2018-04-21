@@ -29,9 +29,18 @@ void ProgramManager::draw(){
     }
 }
 
+
+void copyToClipboard(std::string s){
+    try{
+	std::string command = "echo \"" + s + "\" | xsel -b";
+	system(command.c_str());
+    }catch(int e){
+    }
+}
+
+
 void ProgramManager::events(){
-    int input = wgetch(mWindow);
-    switch(input){	
+    switch(checkInput()){	
 	case KEY_UP:
 	    mSelected--;
 	    break;
@@ -41,7 +50,10 @@ void ProgramManager::events(){
 	case KEY_RIGHT:
 	    break;
 	case KEY_LEFT:
-	    break;	
+	    break;
+	case 'a':
+	    copyToClipboard(query("userdata", "001")["password"]);
+	    break;
 	case 'q':
 	    mState = Exiting;
 	    break;
@@ -53,15 +65,6 @@ void ProgramManager::update(){
 }
 
 /*
-void Manager::copyToClipboard(std::string s){
-    try{
-	std::string command = "echo \"" + s + "\" | xsel -b";
-	system(command.c_str());
-    }catch(int e){
-    }
-}
-
-
 std::string Manager::generatePassword(size_t lenght, std::string blacklistedCharacters){ 
     blacklistedCharacters += mBlacklistedCharacters;
     std::string password, randomCharacter;

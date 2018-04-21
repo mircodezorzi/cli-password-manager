@@ -19,13 +19,13 @@
 
 DisplayManager::DisplayManager(){
    if(true){
-	mWindow = initscr();
-	
+	mWindow = initscr();	
 	setlocale(LC_ALL, "");
-	raw();
-	noecho();
 	keypad(mWindow, TRUE);
+	
 	curs_set(0);
+	noecho();
+	raw();
     }else
 	throw std::runtime_error("error reading terminal size");
 }
@@ -65,11 +65,30 @@ void DisplayManager::checkForWindowResize(){
     }
 }
 
+int DisplayManager::checkInput(){
+    return wgetch(mWindow);
+}
+
 void DisplayManager::resetCursor(){
     move(mWindowsize.h - 1, 0);
 }
 
+void DisplayManager::drawLine(size_t pos, Direction direction){
+    size_t oldPos[2] = {getcurx(mWindow), getcury(mWindow)};
+    if(direction == Horizontal){
+	move(pos, 0);
+         for(int i = 0; i < mWindowsize.w; i++)
+ 	    addch(ACS_HLINE);
+     }else{
+ 	move(0, pos);
+	for(int i = 0; i < mWindowsize.h; i++)
+	    addch(ACS_VLINE);  
+    }
+    move(oldPos[0], oldPos[1]);
+}
+
 void DisplayManager::print(std::string str, size_t row, Align a){
+    size_t oldPos[2] = {getcurx(mWindow), getcury(mWindow)};
     switch(a){
 	case Center:
 	    mvprintw(row, mWindowsize.w / 2 - str.length() / 2, str.c_str());
@@ -81,9 +100,11 @@ void DisplayManager::print(std::string str, size_t row, Align a){
 	    mvprintw(row, mWindowsize.w - str.length(), str.c_str());
 	    break;
     }
+    move(oldPos[0], oldPos[1]);
 }
 
 void DisplayManager::printFrame(){
+    size_t oldPos[2] = {getcurx(mWindow), getcury(mWindow)};
     attron(A_STANDOUT); 
     mvhline(0, 0, ' ', mWindowsize.w);
     mvhline(mWindowsize.h - 1, 0, ' ', mWindowsize.w);
@@ -101,9 +122,17 @@ void DisplayManager::printFile(std::string path){
 }
 
 void DisplayManager::printLine(size_t row){
+    size_t oldPos[2] = {getcurx(mWindow), getcury(mWindow)};
     attron(A_STANDOUT); 
     mvhline(row, 0, ' ', mWindowsize.w);
     attroff(A_STANDOUT);
+    move(oldPos[0], oldPos[1]);
+}
+
+void DisplayManager::clearRow(size_t row){
+    size_t oldPos[2] = {getcurx(mWindow), getcury(mWindow)};
+    mvhline(row, 0, ' ', mWindowsize.w);
+    move(oldPos[0], oldPos[1]); 
 }
 
 void DisplayManager::printTable(std::map<std::string, std::map<std::string, 
@@ -118,13 +147,20 @@ void DisplayManager::printTable(std::map<std::string, std::map<std::string,
 	for(auto attribute : record.second){ 
 	    size_t oldX = getcurx(mWindow);
 	    size_t oldY = getcury(mWindow);
-	    attron(A_STANDOUT);	
+	   	    attron(A_STANDOUT);	
  	    mvprintw(tableRow, getcurx(mWindow), attribute.first.c_str());
  	    attroff(A_STANDOUT);  
-	    
-	    move(oldY, oldX);
-	    
+	  
+	    if(i == selected){
+		//printLine(i + tableRow + 1);
+		attron(A_BOLD);
+	    }else
+		i = i;
+		//clearRow(i + tableRow + 1);
+	    move(oldY, oldX);	    
 	    printw(boost::get<std::string>(attribute.second).c_str());
+	    if(i == selected)
+		attroff(A_BOLD);  
 	    
 	    move(getcury(mWindow), colW);
 	    colW += colW;
