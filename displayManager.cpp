@@ -100,46 +100,32 @@ void DisplayManager::printFile(std::string path){
     }
 }
 
-void DisplayManager::printLine(size_t pos, Direction direction){
-    if(direction == Horizontal){
- 	move(pos, 0);
-	//addch (ACS_ULCORNER);
-        for(int i = 0; i < mWindowsize.w; i++)
-	    addch(ACS_HLINE);
-	//addch (ACS_URCORNER);
-    }else{
-	move(0, pos);
-	for(int i = 0; i < mWindowsize.h; i++)
-	    addch(ACS_VLINE);  
-    }
+void DisplayManager::printLine(size_t row){
+    attron(A_STANDOUT); 
+    mvhline(row, 0, ' ', mWindowsize.w);
+    attroff(A_STANDOUT);
 }
 
 void DisplayManager::printTable(std::map<std::string, std::map<std::string, 
 	boost::variant<std::string, size_t, double, bool>>> table, size_t selected){
     
     size_t tableRow = 3;
-
-    printLine(tableRow, Horizontal);
-    move(tableRow + 1, 1);
-    
+    printLine(tableRow);
+    move(tableRow + 1, 0); 
     size_t i = 0;
     size_t colW = mWindowsize.w / table.size(); 
     for(auto record: table){
-	//printLine(getcurx(mWindow), Vertical);
-	//if(i == selected)
-	    //printLine(i + 3);
-	//else
-	//    mvhline(i + 3, 0, ' ', mWindowsize.w);
 	for(auto attribute : record.second){ 
 	    size_t oldX = getcurx(mWindow);
 	    size_t oldY = getcury(mWindow);
-	    mvprintw(tableRow - 1, getcurx(mWindow), attribute.first.c_str());
+	    attron(A_STANDOUT);	
+ 	    mvprintw(tableRow, getcurx(mWindow), attribute.first.c_str());
+ 	    attroff(A_STANDOUT);  
+	    
 	    move(oldY, oldX);
-	    if(i == selected)
-		attron(A_STANDOUT);	
-		printw(boost::get<std::string>(attribute.second).c_str());
-	    if(i == selected)
-		attroff(A_STANDOUT);   
+	    
+	    printw(boost::get<std::string>(attribute.second).c_str());
+	    
 	    move(getcury(mWindow), colW);
 	    colW += colW;
 	    }
