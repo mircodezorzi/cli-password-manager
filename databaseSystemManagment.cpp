@@ -93,15 +93,12 @@ void DatabaseSystemManagment::import(){
     } 
 }
 
-auto DatabaseSystemManagment::sort(std::string tableName, std::string field){
-    std::vector<boost::variant<std::string, size_t, double, bool>> sortedTable;
-    for(auto table: mTables){
-	if(table.first == tableName){
-	    //TODO finish
-	}
-    }
+auto DatabaseSystemManagment::query(std::string tableName, std::string recordKey){
+    for(auto table: mTables)
+	for(auto record: table.second)
+	    if(record.first == recordKey)
+		return record.second;
 }
 
-auto DatabaseSystemManagment::query(std::string table, std::vector<std::string> fields){
-    // TODO finish
+auto DatabaseSystemManagment::query(std::string tableName, std::vector<std::string> fields){
 }

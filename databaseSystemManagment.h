@@ -19,7 +19,8 @@ public:
     void import();
     
     auto query()		    {return mTables;}
-    auto query(std::string table, std::vector<std::string> fields);
+    auto query(std::string tableName, std::string recordKey);
+    auto query(std::string tableName, std::vector<std::string> fields);
     
     auto sort(std::string tableName, std::string fields);
 
