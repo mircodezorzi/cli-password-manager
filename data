@@ -1,6 +1,6 @@
 :: "userdata"
-;; !"site" "username" "password"
-"site1" "test1" "pass1"
-"google.com" "username" "password"
-"site2" "test2" "pass2"
+;; !"ID" "site" "username" "password"
+"001" "google.com" "ausername" "password"
+"002" "github.com" "another username" "not apassword"
+"003" "typeracer.com" "aND an0ther one" "another password"
 --

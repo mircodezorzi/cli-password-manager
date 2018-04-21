@@ -9,6 +9,7 @@
 #include<map>
  
 enum Align{Center, Left, Right};
+enum Direction{Horizontal, Vertical};
 
 class WindowSize{
 public:
@@ -25,22 +26,21 @@ class DisplayManager{
 public:
     DisplayManager();
     ~DisplayManager();
+    
+    WINDOW *mWindow;
 
     void checkForWindowResize();
     void printFrame();
-    void resetCursor();
-    
+    void resetCursor(); 
     // TODO add attribute parameter
     void print(std::string str, size_t row, Align a); 
-    void printLine(size_t row);
+    void printLine(size_t pos, Direction direction);
     void printFile(std::string path);
     void printTable(std::map<std::string, std::map<std::string,\
-	            boost::variant<std::string, size_t, double, bool>>> table); 
+	            boost::variant<std::string, size_t, double, bool>>> table, size_t selected); 
 
 private:  
     WindowSize getWindowSize();
-
-    WINDOW    *mWindow;
     WindowSize mWindowsize;
     
 protected:

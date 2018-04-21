@@ -13,14 +13,16 @@ public:
 
 private:
     void loop();
-    
+        
     void draw();
     void update();
     void events();	
 
     enum State{Running, HelpMenu, Exiting};
-    State mState;
     
+    State mState; 
+    size_t mSelected;
+
     /*  void copyToClipboard(std::string s);
    
     std::string generatePassword(size_t lenght, std::string blacklistedCharacters = "");

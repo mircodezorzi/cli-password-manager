@@ -3,6 +3,7 @@
 ProgramManager::ProgramManager(std::string dbPath)
     : DatabaseSystemManagment(dbPath)
     , DisplayManager(){
+    mSelected = 0;    
 }
 
 void ProgramManager::start(){
@@ -23,13 +24,28 @@ void ProgramManager::draw(){
     printFrame();
     switch(mState){
 	case Running:
-	    printTable(query()["userdata"]);    
+	    printTable(query()["userdata"], mSelected);    
 	    break;
     }
 }
 
 void ProgramManager::events(){
-    if(getch() == 'q') mState = Exiting; 
+    int input = wgetch(mWindow);
+    switch(input){	
+	case KEY_UP:
+	    mSelected--;
+	    break;
+	case KEY_DOWN:
+	    mSelected++;
+	    break;
+	case KEY_RIGHT:
+	    break;
+	case KEY_LEFT:
+	    break;	
+	case 'q':
+	    mState = Exiting;
+	    break;
+    } 
 }
 
 void ProgramManager::update(){
