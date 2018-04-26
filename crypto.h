@@ -1,9 +1,12 @@
 #ifndef CRYPT_H_WAPUMCKS
 #define CRYPT_H_WAPUMCKS
 
-#include <string>
-#include <vector>
-#include <fstream>
+#include<string>
+#include<vector>
+#include<fstream>
+
+#include<> 
+#include<boost/variant.hpp>
 
 class Crypto{
 

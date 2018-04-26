@@ -19,7 +19,7 @@ public:
     void setFormat(std::string f)	{mFormat    = f;}
     void setPath  (std::string p)	{mPath      = p;}
 	
-    size_t	getThershold() const	{return mThershold;}
+    size_t	getThreshold() const	{return mThreshold;}
     std::string getFormat() const       {return mFormat;}
     std::string getPath() const		{return mPath;}
 

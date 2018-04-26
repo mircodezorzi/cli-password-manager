@@ -29,16 +29,6 @@ void ProgramManager::draw(){
     }
 }
 
-
-void copyToClipboard(std::string s){
-    try{
-	std::string command = "echo \"" + s + "\" | xsel -b";
-	system(command.c_str());
-    }catch(int e){
-    }
-}
-
-
 void ProgramManager::events(){
     switch(checkInput()){	
 	case KEY_UP:
@@ -52,7 +42,7 @@ void ProgramManager::events(){
 	case KEY_LEFT:
 	    break;
 	case 'a':
-	    copyToClipboard(query("userdata", "001")["password"]);
+	    //copyToClipboard(boost::get<std::string>(query("userdata", "001")["password"]));
 	    break;
 	case 'q':
 	    mState = Exiting;
@@ -63,6 +53,16 @@ void ProgramManager::events(){
 void ProgramManager::update(){
     checkForWindowResize();
 }
+
+/*
+void copyToClipboard(std::string s){
+    try{
+	std::string command = "echo \"" + s + "\" | xsel -b";
+	system(command.c_str());
+    }catch(int e){
+    }
+}
+*/
 
 /*
 std::string Manager::generatePassword(size_t lenght, std::string blacklistedCharacters){ 
