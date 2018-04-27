@@ -1,14 +1,15 @@
 #include "programManager.h"
 
-ProgramManager::ProgramManager(std::string dbPath)
-    : DatabaseSystemManagment(dbPath)
+ProgramManager::ProgramManager(std::string dbFilepath)
+    : DatabaseSystemManagment()
     , DisplayManager(){
-    mSelected = 0;    
+    mDbFilepath = dbFilepath;
 }
 
 void ProgramManager::start(){
+    mSelected   = 0;    
     mState = Running;
-    import();
+    import(mDbFilepath);
     loop();
 }
 

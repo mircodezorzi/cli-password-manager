@@ -1,1 +1,14 @@
 26-4-2018 - 19:5:7 | level: critical | Imported database from:data
+26-4-2018 - 20:39:41 | level: critical | Imported database from:data
+27-4-2018 - 19:4:18 | level: warning | database supports only one primary key
+27-4-2018 - 19:15:17 | level: debug | finished importing database in 56milliseconds
+27-4-2018 - 19:15:44 | level: debug | finished importing database in 54 milliseconds
+27-4-2018 - 19:16:12 | level: debug | finished importing database in 62 milliseconds
+27-4-2018 - 19:26:23 | level: info | imported database in 55 ms
+27-4-2018 - 19:29:59 | level: info | imported database in 64 ms
+27-4-2018 - 19:30:47 | level: info | imported database in 74 ms
+27-4-2018 - 19:38:34 | level: info | imported database in 282 ms
+27-4-2018 - 19:38:44 | level: info | imported database in 336 ms
+27-4-2018 - 19:39:49 | level: info | imported database in 160 ms
+27-4-2018 - 20:5:53 | level: info | imported database in 364 ms
+27-4-2018 - 20:25:59 | level: info | imported database in 273 ms

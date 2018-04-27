@@ -14,8 +14,8 @@ Crypto	crypto.cpp	/^Crypto::Crypto(std::string key){$/;"	f	class:Crypto
 Crypto	crypto.h	/^class Crypto{$/;"	c
 DATABASESYSTEMMANAGMENT_H_4WMQHENX	databaseSystemManagment.h	2;"	d
 DISPLAYMANAGER_H_T7LB1KZ4	displayManager.h	2;"	d
-DatabaseSystemManagment	databaseSystemManagment.cpp	/^DatabaseSystemManagment::DatabaseSystemManagment(std::string filepath){$/;"	f	class:DatabaseSystemManagment
-DatabaseSystemManagment	databaseSystemManagment.h	/^class DatabaseSystemManagment{$/;"	c
+DatabaseSystemManagment	databaseSystemManagment.cpp	/^DatabaseSystemManagment::DatabaseSystemManagment()\\$/;"	f	class:DatabaseSystemManagment
+DatabaseSystemManagment	databaseSystemManagment.h	/^class DatabaseSystemManagment : protected Logger{$/;"	c
 Direction	displayManager.h	/^enum Direction{Vertical, Horizontal};$/;"	g
 DisplayManager	displayManager.cpp	/^DisplayManager::DisplayManager(){$/;"	f	class:DisplayManager
 DisplayManager	displayManager.h	/^class DisplayManager{ $/;"	c
@@ -26,11 +26,11 @@ IDIR	makefile	/^IDIR = "\/usr\/include\/boost\/variant.hpp"$/;"	m
 LIBS	makefile	/^LIBS = -lncurses$/;"	m
 LOGGER_H_H3RB85EA	logger.h	2;"	d
 Left	displayManager.h	/^enum Align{Center, Left, Right};$/;"	e	enum:Align
-Logger	logger.cpp	/^Logger::Logger(std::string filepath, size_t level, std::string format){ $/;"	f	class:Logger
+Logger	logger.cpp	/^Logger::Logger(std::string filepath, size_t threshold, std::string format){ $/;"	f	class:Logger
 Logger	logger.h	/^class Logger{$/;"	c
 NAME	makefile	/^NAME = program$/;"	m
 PROGRAMMANAGER_H_AKLYD7VY	programManager.h	2;"	d
-ProgramManager	programManager.cpp	/^ProgramManager::ProgramManager(std::string dbPath)$/;"	f	class:ProgramManager
+ProgramManager	programManager.cpp	/^ProgramManager::ProgramManager(std::string dbFilepath)$/;"	f	class:ProgramManager
 ProgramManager	programManager.h	/^class ProgramManager : private DatabaseSystemManagment, private DisplayManager{$/;"	c
 Right	displayManager.h	/^enum Align{Center, Left, Right};$/;"	e	enum:Align
 Running	programManager.h	/^    enum State{Running, HelpMenu, Exiting};$/;"	e	enum:ProgramManager::State
@@ -39,71 +39,71 @@ Vertical	displayManager.h	/^enum Direction{Vertical, Horizontal};$/;"	e	enum:Dir
 WindowSize	displayManager.h	/^class WindowSize{$/;"	c
 checkForWindowResize	displayManager.cpp	/^void DisplayManager::checkForWindowResize(){$/;"	f	class:DisplayManager
 checkInput	displayManager.cpp	/^int DisplayManager::checkInput(){$/;"	f	class:DisplayManager
+clearRow	displayManager.cpp	/^void DisplayManager::clearRow(size_t row){$/;"	f	class:DisplayManager
 critical	logger.cpp	/^void Logger::critical(std::string message){$/;"	f	class:Logger
-criticalLevel	logger.h	13;"	d
+criticalLevel	logger.h	10;"	d
 debug	logger.cpp	/^void Logger::debug(std::string message){$/;"	f	class:Logger
-debugLevel	logger.h	9;"	d
+debugLevel	logger.h	6;"	d
 decrypt	crypto.cpp	/^void Crypto::decrypt(std::string &rData){$/;"	f	class:Crypto
 draw	programManager.cpp	/^void ProgramManager::draw(){$/;"	f	class:ProgramManager
 drawLine	displayManager.cpp	/^void DisplayManager::drawLine(size_t pos, Direction direction){$/;"	f	class:DisplayManager
 encrypt	crypto.cpp	/^void Crypto::encrypt(std::string &rData){$/;"	f	class:Crypto
 error	logger.cpp	/^void Logger::error(std::string message){$/;"	f	class:Logger
-errorClipboard	exceptions.h	2;"	d
-errorLevel	logger.h	12;"	d
-errorReadingData	exceptions.h	5;"	d
+errorLevel	logger.h	9;"	d
 events	programManager.cpp	/^void ProgramManager::events(){$/;"	f	class:ProgramManager
 fileStream	crypto.h	/^    std::fstream fileStream;$/;"	m	class:Crypto
 find	databaseSystemManagment.cpp	/^size_t DatabaseSystemManagment::find(std::string str, const char *c, size_t ordinal){$/;"	f	class:DatabaseSystemManagment
-formatMessage	logger.cpp	/^std::string Logger::formatMessage(std::string message){$/;"	f	class:Logger
+formatMessage	logger.cpp	/^std::string Logger::formatMessage(std::string message, std::string level){$/;"	f	class:Logger
 generateKey	crypto.cpp	/^void Crypto::generateKey(){$/;"	f	class:Crypto
-generatingPassword	exceptions.h	8;"	d
 getDate	logger.cpp	/^std::string Logger::getDate(std::string format){ $/;"	f	class:Logger
 getFormat	logger.h	/^    std::string getFormat() const       {return mFormat;}$/;"	f	class:Logger
 getKey	crypto.h	/^    std::string getKey() const		    {return mKey;}$/;"	f	class:Crypto
-getLevel	logger.h	/^    size_t	getLevel() const	{return mLevel;}$/;"	f	class:Logger
-getPath	databaseSystemManagment.h	/^    std::string getPath()	    {return mPath;}$/;"	f	class:DatabaseSystemManagment
 getPath	logger.h	/^    std::string getPath() const		{return mPath;}$/;"	f	class:Logger
+getThreshold	logger.h	/^    size_t	getThreshold() const	{return mThreshold;}$/;"	f	class:Logger
 getWindowSize	displayManager.cpp	/^WindowSize DisplayManager::getWindowSize(){$/;"	f	class:DisplayManager
 h	displayManager.h	/^    size_t w, h;$/;"	m	class:WindowSize
-import	databaseSystemManagment.cpp	/^void DatabaseSystemManagment::import(){ $/;"	f	class:DatabaseSystemManagment
+import	databaseSystemManagment.cpp	/^void DatabaseSystemManagment::import(std::string filepath){ $/;"	f	class:DatabaseSystemManagment
 info	logger.cpp	/^void Logger::info(std::string message){$/;"	f	class:Logger
-infoLevel	logger.h	10;"	d
+infoLevel	logger.h	7;"	d
+insertLineNumber	logger.cpp	/^std::string Logger::insertLineNumber(std::string str, size_t n){$/;"	f	class:Logger
 log	logger.cpp	/^void Logger::log(size_t level, std::string message){$/;"	f	class:Logger
 logStream	logger.h	/^    std::ofstream logStream;$/;"	m	class:Logger
 loop	programManager.cpp	/^void ProgramManager::loop(){$/;"	f	class:ProgramManager
+mDbFilepath	programManager.h	/^    std::string mDbFilepath;$/;"	m	class:ProgramManager
 mFormat	logger.h	/^    std::string mFormat;  $/;"	m	class:Logger
 mKey	crypto.h	/^    std::string mKey;$/;"	m	class:Crypto
 mKeyLength	crypto.h	/^    size_t	mKeyLength;$/;"	m	class:Crypto
-mLevel	logger.h	/^    size_t mLevel; $/;"	m	class:Logger
-mPath	databaseSystemManagment.h	/^    std::string mPath;$/;"	m	class:DatabaseSystemManagment
-mPath	logger.h	/^    std::string mPath;$/;"	m	class:Logger
+mPath	logger.h	/^    std::string mPath;    $/;"	m	class:Logger
 mPrimaryKeys	databaseSystemManagment.h	/^    std::map<std::string, std::string> mPrimaryKeys;$/;"	m	class:DatabaseSystemManagment
 mSelected	programManager.h	/^    size_t mSelected;$/;"	m	class:ProgramManager
 mState	programManager.h	/^    State mState; $/;"	m	class:ProgramManager
-mTables	databaseSystemManagment.h	/^	     boost::variant<std::string, size_t, double, bool>>>> mTables;$/;"	m	class:DatabaseSystemManagment
+mTables	databaseSystemManagment.h	/^	boost::variant<std::string, size_t, double, bool>>>> mTables;$/;"	m	class:DatabaseSystemManagment
+mThreshold	logger.h	/^    size_t	mThreshold; $/;"	m	class:Logger
 mWindow	displayManager.h	/^    WINDOW     *mWindow;$/;"	m	class:DisplayManager
 mWindowsize	displayManager.h	/^    WindowSize mWindowsize; $/;"	m	class:DisplayManager
 main	main.cpp	/^int main(){$/;"	f
+multiply	databaseSystemManagment.cpp	/^std::string DatabaseSystemManagment::multiply(char c, size_t n){$/;"	f	class:DatabaseSystemManagment
 operator =	displayManager.h	/^    WindowSize operator=(WindowSize other){$/;"	f	class:WindowSize
+primaryKeyOverload	exceptions.h	3;"	d
 print	displayManager.cpp	/^void DisplayManager::print(std::string str, size_t row, Align a){$/;"	f	class:DisplayManager
 printFile	displayManager.cpp	/^void DisplayManager::printFile(std::string path){$/;"	f	class:DisplayManager
 printFrame	displayManager.cpp	/^void DisplayManager::printFrame(){$/;"	f	class:DisplayManager
 printLine	displayManager.cpp	/^void DisplayManager::printLine(size_t row){$/;"	f	class:DisplayManager
 printTable	displayManager.cpp	/^void DisplayManager::printTable(std::map<std::string, std::map<std::string, $/;"	f	class:DisplayManager
-query	databaseSystemManagment.cpp	/^auto DatabaseSystemManagment::query(std::string table, std::vector<std::string> fields){$/;"	f	class:DatabaseSystemManagment
-query	databaseSystemManagment.h	/^    auto query()		    {return mTables;}$/;"	f	class:DatabaseSystemManagment
+query	databaseSystemManagment.cpp	/^std::map<std::string, boost::variant<std::string, size_t, double, bool>> DatabaseSystemManagment::query(std::string tableName, std::string recordKey){$/;"	f	class:DatabaseSystemManagment
+query	databaseSystemManagment.h	/^	query() {return mTables;}$/;"	f	class:DatabaseSystemManagment
 removeSpaces	databaseSystemManagment.cpp	/^void DatabaseSystemManagment::removeSpaces(std::string &str){$/;"	f	class:DatabaseSystemManagment
 replace	logger.cpp	/^void Logger::replace(std::string& str, std::string substr, std::string replacement){$/;"	f	class:Logger
 resetCursor	displayManager.cpp	/^void DisplayManager::resetCursor(){$/;"	f	class:DisplayManager
-setFormat	logger.h	/^    void setFormat(std::string f)	{mFormat = f;}$/;"	f	class:Logger
+setFormat	logger.h	/^    void setFormat(std::string f)	{mFormat    = f;}$/;"	f	class:Logger
 setKey	crypto.h	/^    void setKey	     (std::string k)	    {mKey = k;}$/;"	f	class:Crypto
 setKeyLenght	crypto.h	/^    void setKeyLenght(size_t l)	            {mKeyLength = l;}$/;"	f	class:Crypto
-setLevel	logger.h	/^    void setLevel (size_t l)		{mLevel  = l;}$/;"	f	class:Logger
-setPath	databaseSystemManagment.h	/^    void setPath(std::string p)	    {mPath = p;}$/;"	f	class:DatabaseSystemManagment
-setPath	logger.h	/^    void setPath  (std::string p)	{mPath   = p;}$/;"	f	class:Logger
-sort	databaseSystemManagment.cpp	/^auto DatabaseSystemManagment::sort(std::string tableName, std::string field){$/;"	f	class:DatabaseSystemManagment
+setPath	logger.h	/^    void setPath  (std::string p)	{mPath      = p;}$/;"	f	class:Logger
+setThreshold	logger.h	/^    void setThreshold(size_t t)		{mThreshold = t;}$/;"	f	class:Logger
 start	programManager.cpp	/^void ProgramManager::start(){$/;"	f	class:ProgramManager
 substring	databaseSystemManagment.cpp	/^std::string DatabaseSystemManagment::substring(std::string str, const char *separator){$/;"	f	class:DatabaseSystemManagment
+tableFieldsNotSet	exceptions.h	2;"	d
+tableNameNotSet	exceptions.h	1;"	d
 toByte	crypto.cpp	/^std::vector<bool> Crypto::toByte(char character){$/;"	f	class:Crypto
 toByte	crypto.cpp	/^std::vector<bool> Crypto::toByte(std::string hex){$/;"	f	class:Crypto
 toChar	crypto.cpp	/^char Crypto::toChar(std::vector<bool> byte){$/;"	f	class:Crypto
@@ -112,5 +112,5 @@ uniform	crypto.cpp	/^void Crypto::uniform(std::vector<T> &vec, T element, size_t
 update	programManager.cpp	/^void ProgramManager::update(){$/;"	f	class:ProgramManager
 w	displayManager.h	/^    size_t w, h;$/;"	m	class:WindowSize
 warning	logger.cpp	/^void Logger::warning(std::string message){$/;"	f	class:Logger
-warningLevel	logger.h	11;"	d
+warningLevel	logger.h	8;"	d
 ~DisplayManager	displayManager.cpp	/^DisplayManager::~DisplayManager(){$/;"	f	class:DisplayManager

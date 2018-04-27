@@ -22,6 +22,8 @@ private:
     
     State mState; 
     size_t mSelected;
+    
+    std::string mDbFilepath;
 
     /*  void copyToClipboard(std::string s);
    

@@ -1,8 +1,4 @@
-// OS
-#define errorClipboard "There has been an error copying a string into the clipboard. Check that you have xsel installed in your system."
+#define tableNameNotSet	   "Expected table name at line %(line); please use \"::\" at start of row to set table name."
+#define tableFieldsNotSet  "Expected fields at line %(line); please use \";;\" at start of row to set table fileds."
+#define primaryKeyOverload "At line %(line): database system manager only supports one primary key. Setting first flag as primary key."
 
-// IO
-#define errorReadingData "There has been an error reading the data from the file."
-
-// Manager class
-#define generatingPassword "Password has been generated."
