@@ -1,4 +1,5 @@
 #include "databaseSystemManagment.h"
+#include "exceptions.h"
 
 #include "boost/variant.hpp"
 
@@ -9,11 +10,10 @@
 #include<fstream>
 #include<algorithm>
 #include<math.h>
+#include<time.h>
 
-DatabaseSystemManagment::DatabaseSystemManagment(std::string filepath)\
-    : Logger("log", 4){    
-    mPath = filepath;
-}
+DatabaseSystemManagment::DatabaseSystemManagment()\
+    : Logger("log", 0){}
 
 std::string DatabaseSystemManagment::substring(std::string str, const char *separator){
     return str.substr(str.find(separator) + 1,\
@@ -40,56 +40,76 @@ std::string DatabaseSystemManagment::multiply(char c, size_t n){
     return result;
 }
 
-void DatabaseSystemManagment::import(){ 
-    // TODO:
-    //	    - add automatic counter if not present in file
-    // BUGS:  
+void DatabaseSystemManagment::import(std::string filepath){ 
+    // NOTES:
     //	    - multiple keys are not supported
     //	    - attributes cannot contain double quotes
+    //	    - currently all variables are stored as strings
     //	    - table name cannot be "data"
-
-			  std::map<std::string,	boost::variant<std::string, size_t, double, bool>> record;
+    //
+    // TODO:
+    //	    - if table name is not present, automatically set it to default value, then automatically
+    //	      increment it if there's more than one table
+    //	    - add automatic id if not present 
+    //	    - finish adding all logging / fail-safes
+			  
+			  std::map<std::string, boost::variant<std::string, size_t, double, bool>> record;
     std::map<std::string, std::map<std::string, boost::variant<std::string, size_t, double, bool>>> table;
 	
-    std::ifstream inputFile(mPath);  
+    std::ifstream inputFile(filepath);  
     std::vector<std::string> fields;
-    std::string tableName, primaryKey, id;
+    std::string tableName = "", primaryKey, id; 
     
-    try{
-	for(std::string row; std::getline(inputFile, row);){
-	    if(row.substr(0, 2) == "::")     	 // table name
-		tableName = substring(row, "\"");
-	    else if(row.substr(0, 2) == ";;"){	 // fields
-		primaryKey = "";
-		fields.clear();
-		while(!row.empty()){
-		    removeSpaces(row);
-		    if(row.substr(0, 1) == "!"){ // primary key
+    size_t lineIndex = 1,
+	   t	     = clock();
+
+    bool keySet = false;
+
+    for(std::string row; std::getline(inputFile, row);){
+	if(row.substr(0, 2) == "::")     	 // table name
+	    tableName = substring(row, "\"");
+	else if(row.substr(0, 2) == ";;"){	 // fields
+	    primaryKey = "";
+	    fields.clear();
+	    while(!row.empty()){
+		removeSpaces(row);
+		if(row.substr(0, 1) == "!"){	// primary key	
+		    if(keySet){
+			error(insertLineNumber(primaryKeyOverload, lineIndex));
+			throw std::runtime_error(insertLineNumber(primaryKeyOverload, lineIndex));
+		    }else{
 			primaryKey = substring(row, "\"");
-			mPrimaryKeys[tableName] = primaryKey; 
+			mPrimaryKeys[tableName] = primaryKey;
+			keySet = true;
 		    }
-		    fields.push_back(substring(row, "\""));	
-		    row.erase(0, find(row, "\"", 2) + 1);
 		}
-	    }else if(row.substr(0, 2) == "--"){	// table end	
-		mTables[tableName] = table;
-		table.clear();
-	    }else{		    		// data
-		record.clear();
-		for(int i = 0; i < fields.size(); i++){
-		    if(fields[i] == primaryKey)
-			id =  substring(row, "\"");
-		    else
-			record[fields[i]] = substring(row, "\"");
-		    row.erase(0, find(row, "\"", 2) + 1);	
-		}
-		table[id] = record;
+		fields.push_back(substring(row, "\""));	
+		row.erase(0, find(row, "\"", 2) + 1);
 	    }
+	}else if(row.substr(0, 2) == "--"){	// table end	
+	    mTables[tableName] = table;
+	    table.clear();
+	}else{					// data
+	    record.clear();
+	    for(int i = 0; i < fields.size(); i++){
+		if(fields[i] == primaryKey)
+		    id =  substring(row, "\"");
+		else
+		    record[fields[i]] = substring(row, "\"");
+		row.erase(0, find(row, "\"", 2) + 1);	
+	    }
+	    table[id] = record;
 	}
-    }catch(...){
-	critical("Error importing database");
-	throw std::runtime_error("Error importing database");
+	
+	if(tableName == ""){
+	    error(insertLineNumber(tableNameNotSet, lineIndex));
+	    throw std::runtime_error(insertLineNumber(tableNameNotSet, lineIndex));
+	}
+
+	lineIndex++;
     }
+    
+    info("imported database in " + std::to_string(clock() - t) + " ms");
 }
 
 std::map<std::string, boost::variant<std::string, size_t, double, bool>> DatabaseSystemManagment::query(std::string tableName, std::string recordKey){
