@@ -29,11 +29,13 @@ public:
     void warning (std::string message);
     void error	 (std::string message);
     void critical(std::string message);
+    
+    std::string insertLineNumber(std::string str, size_t n);
 
 private: 
     size_t	mThreshold; 
     std::string mFormat;  
-    std::string mPath;
+    std::string mPath;    
 
 protected: 
     std::ofstream logStream;

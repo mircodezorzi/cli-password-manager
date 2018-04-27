@@ -39,6 +39,11 @@ void Logger::replace(std::string& str, std::string substr, std::string replaceme
 	str.replace(str.find(substr), substr.length(), replacement);
 }
 
+std::string Logger::insertLineNumber(std::string str, size_t n){
+    replace(str, "%(line)", std::to_string(n));
+    return str;
+}
+
 void Logger::log(size_t level, std::string message){
     if(level >= mThreshold)	    logStream << formatMessage(message, "log");
 }
