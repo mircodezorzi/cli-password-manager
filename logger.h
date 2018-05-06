@@ -12,8 +12,8 @@
 class Logger{
 
 public:
-    Logger(std::string filepath, size_t threshold = 0, \
-	   std::string format = "%(date) - %(time) | level: %(level) | %(msg)");
+    Logger(std::string filepath = "log", size_t threshold = 0, \
+	   std::string format = "{time[hh:mm:ss]} {date[DD-MM-YYYY]} [{level}] {message}");
     
     void setThreshold(size_t t)		{mThreshold = t;}
     void setFormat(std::string f)	{mFormat    = f;}
@@ -24,14 +24,13 @@ public:
     std::string getPath() const		{return mPath;}
 
     void log(size_t level, std::string message); 
+    
     void debug	 (std::string message);
     void info	 (std::string message);
     void warning (std::string message);
     void error	 (std::string message);
     void critical(std::string message);
-    
-    std::string insertLineNumber(std::string str, size_t n);
-
+   
 private: 
     size_t	mThreshold; 
     std::string mFormat;  
@@ -39,11 +38,8 @@ private:
 
 protected: 
     std::ofstream logStream;
-    
+
     std::string formatMessage(std::string message, std::string level);
-    std::string getDate	     (std::string format = "DD/MM/YYYY - hh:mm:ss");
-    void replace	     (std::string &str, std::string substr,\
-			      std::string replacement);
 };
 
 #endif /* end of include guard: LOGGER_H_H3RB85EA */

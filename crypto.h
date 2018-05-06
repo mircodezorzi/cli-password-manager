@@ -5,7 +5,6 @@
 #include<vector>
 #include<fstream>
 
-#include<> 
 #include<boost/variant.hpp>
 
 class Crypto{

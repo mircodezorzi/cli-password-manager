@@ -1,4 +1,6 @@
 #include "logger.h"
+#include "utilities.h"
+#include "timeDate.h"
 
 #include <fstream>
 #include <string>
@@ -14,34 +16,15 @@ Logger::Logger(std::string filepath, size_t threshold, std::string format){
 }
 
 std::string Logger::formatMessage(std::string message, std::string level){
-    std::string formattedMessage = mFormat;
-    replace(formattedMessage, "%(date)",  getDate("DD-MM-YYYY"));
-    replace(formattedMessage, "%(time)",  getDate("hh:mm:ss"));
-    replace(formattedMessage, "%(level)", level);
-    replace(formattedMessage, "%(msg)",   message);
+    using namespace utilities;
+    std::string formattedMessage = mFormat,
+		timeFormat = substring(mFormat, "{time", "}"),
+		dateFormat = substring(mFormat, "{date", "}");
+    replace(formattedMessage, "{date}",  TimeDate::instantToString(TimeDate::now(), dateFormat));
+    replace(formattedMessage, "{time}",  TimeDate::instantToString(TimeDate::now(), timeFormat));
+    replace(formattedMessage, "{level}", level);
+    replace(formattedMessage, "{message}",   message);
     return formattedMessage + "\n";
-}
-
-std::string Logger::getDate(std::string format){ 
-    time_t t = time(0); 
-    struct tm *pCurrent = localtime(&t);        
-    replace(format, "DD",   std::to_string(pCurrent->tm_mday));
-    replace(format, "MM",   std::to_string(pCurrent->tm_mon + 1));
-    replace(format, "YYYY", std::to_string(pCurrent->tm_year + 1900));
-    replace(format, "hh",   std::to_string(pCurrent->tm_hour));
-    replace(format, "mm",   std::to_string(pCurrent->tm_min));
-    replace(format, "ss",   std::to_string(pCurrent->tm_sec));
-    return format;
-}
-
-void Logger::replace(std::string& str, std::string substr, std::string replacement){
-    if(str.find(substr) != -1)
-	str.replace(str.find(substr), substr.length(), replacement);
-}
-
-std::string Logger::insertLineNumber(std::string str, size_t n){
-    replace(str, "%(line)", std::to_string(n));
-    return str;
 }
 
 void Logger::log(size_t level, std::string message){
