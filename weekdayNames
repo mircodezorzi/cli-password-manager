@@ -1,0 +1,5 @@
+:: "weekdays"
+;; !"language" "0" "1" "2" "3" "4" "5" "6"
+"english"   "monday"   "tuesday" "wednesday" "thursday" "friday"  "saturday" "sunday"
+"italiano"  "lunedi"   "martedi" "mercoledi" "giovedi"  "venerdi" "sabato"   "domenica"
+"slovenski" "pondelok" "utorok"	 "streda"    "štvrtok"	"piatok"  "sobota"   "nedeľa"
